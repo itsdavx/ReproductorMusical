@@ -283,6 +283,7 @@
             this.Controls.Add(this.cmbEfectosMusicales);
             this.Controls.Add(this.pnl_grafico);
             this.ForeColor = System.Drawing.Color.Coral;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FrmReproductorMusical";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MuSync";

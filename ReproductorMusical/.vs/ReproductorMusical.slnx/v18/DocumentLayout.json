@@ -3,55 +3,59 @@
   "WorkspaceRootPath": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\controlador\\reproductorcontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:controlador\\reproductorcontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\efectoparticulas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoparticulas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\modelo\\pistamusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:modelo\\pistamusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\modelo\\reproductormodelo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:modelo\\reproductormodelo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\efectoosciloscopio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoosciloscopio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\efectoondasdesonido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoondasdesonido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectobarrasverticales.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectobarrasverticales.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\modelo\\reproductormodelo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:modelo\\reproductormodelo.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\modelo\\pistamusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:modelo\\pistamusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\controlador\\reproductorcontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:controlador\\reproductorcontrolador.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectoanillosconcentricos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\efectoanillosconcentricos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoanillosconcentricos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\iefectovisual.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\iefectovisual.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\iefectovisual.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectopicosdefrecuencia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\efectopicosdefrecuencia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectopicosdefrecuencia.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectoparticulas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoparticulas.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectoosciloscopio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoosciloscopio.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectoondasdesonido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoondasdesonido.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectoespectrocircular.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\efectoespectrocircular.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoespectrocircular.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\efectosvisuales\\efectoecualizadorled.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\efectosvisuales\\efectoecualizadorled.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:efectosvisuales\\efectoecualizadorled.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
@@ -90,59 +94,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
+              "Title": "EfectoBarrasVerticales.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoBarrasVerticales.cs",
+              "RelativeDocumentMoniker": "EfectosVisuales\\EfectoBarrasVerticales.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoBarrasVerticales.cs",
+              "RelativeToolTip": "EfectosVisuales\\EfectoBarrasVerticales.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T15:52:54.462Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "ReproductorModelo.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Modelo\\ReproductorModelo.cs",
               "RelativeDocumentMoniker": "Modelo\\ReproductorModelo.cs",
               "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Modelo\\ReproductorModelo.cs",
               "RelativeToolTip": "Modelo\\ReproductorModelo.cs",
-              "ViewState": "AgIAACQAAAAAAAAAAAAmwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAmwAMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-06-09T14:41:45.483Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "IEfectoVisual.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\IEfectoVisual.cs",
-              "RelativeDocumentMoniker": "EfectosVisuales\\IEfectoVisual.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\IEfectoVisual.cs",
-              "RelativeToolTip": "EfectosVisuales\\IEfectoVisual.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:41:16.69Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "EfectoPicosDeFrecuencia.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
-              "RelativeDocumentMoniker": "EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
-              "RelativeToolTip": "EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:41:02.268Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "EfectoParticulas.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoParticulas.cs",
-              "RelativeDocumentMoniker": "EfectosVisuales\\EfectoParticulas.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoParticulas.cs",
-              "RelativeToolTip": "EfectosVisuales\\EfectoParticulas.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:40:54.346Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 4,
               "Title": "EfectoOsciloscopio.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoOsciloscopio.cs",
               "RelativeDocumentMoniker": "EfectosVisuales\\EfectoOsciloscopio.cs",
@@ -155,58 +133,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "FrmReproductorMusical.cs [Dise\u00F1o]",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
-              "RelativeDocumentMoniker": "Vista\\FrmReproductorMusical.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs [Dise\u00F1o]",
-              "RelativeToolTip": "Vista\\FrmReproductorMusical.cs [Dise\u00F1o]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:26:32.315Z",
-              "EditorCaption": " [Dise\u00F1o]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "FrmReproductorMusical.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
-              "RelativeDocumentMoniker": "Vista\\FrmReproductorMusical.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
-              "RelativeToolTip": "Vista\\FrmReproductorMusical.cs",
-              "ViewState": "AgIAAJUAAAAAAAAAAADgv6kAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:31:48.501Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ReproductorControlador.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Controlador\\ReproductorControlador.cs",
-              "RelativeDocumentMoniker": "Controlador\\ReproductorControlador.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Controlador\\ReproductorControlador.cs",
-              "RelativeToolTip": "Controlador\\ReproductorControlador.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:41:30.106Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "PistaMusical.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Modelo\\PistaMusical.cs",
-              "RelativeDocumentMoniker": "Modelo\\PistaMusical.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Modelo\\PistaMusical.cs",
-              "RelativeToolTip": "Modelo\\PistaMusical.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:41:37.424Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 5,
               "Title": "EfectoOndasDeSonido.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoOndasDeSonido.cs",
               "RelativeDocumentMoniker": "EfectosVisuales\\EfectoOndasDeSonido.cs",
@@ -219,7 +146,94 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PistaMusical.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Modelo\\PistaMusical.cs",
+              "RelativeDocumentMoniker": "Modelo\\PistaMusical.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Modelo\\PistaMusical.cs",
+              "RelativeToolTip": "Modelo\\PistaMusical.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T14:41:37.424Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ReproductorControlador.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Controlador\\ReproductorControlador.cs",
+              "RelativeDocumentMoniker": "Controlador\\ReproductorControlador.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Controlador\\ReproductorControlador.cs",
+              "RelativeToolTip": "Controlador\\ReproductorControlador.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFAAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T14:41:30.106Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "EfectoParticulas.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoParticulas.cs",
+              "RelativeDocumentMoniker": "EfectosVisuales\\EfectoParticulas.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoParticulas.cs",
+              "RelativeToolTip": "EfectosVisuales\\EfectoParticulas.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T14:40:54.346Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "FrmReproductorMusical.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
+              "RelativeDocumentMoniker": "Vista\\FrmReproductorMusical.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Vista\\FrmReproductorMusical.cs [Dise\u00F1o]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T14:26:32.315Z",
+              "EditorCaption": " [Dise\u00F1o]"
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 11,
+              "Title": "EfectoPicosDeFrecuencia.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
+              "RelativeDocumentMoniker": "EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
+              "RelativeToolTip": "EfectosVisuales\\EfectoPicosDeFrecuencia.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T14:41:02.268Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "FrmReproductorMusical.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
+              "RelativeDocumentMoniker": "Vista\\FrmReproductorMusical.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
+              "RelativeToolTip": "Vista\\FrmReproductorMusical.cs",
+              "ViewState": "AgIAAJUAAAAAAAAAAADgv6kAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T14:31:48.501Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "IEfectoVisual.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\IEfectoVisual.cs",
+              "RelativeDocumentMoniker": "EfectosVisuales\\IEfectoVisual.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\IEfectoVisual.cs",
+              "RelativeToolTip": "EfectosVisuales\\IEfectoVisual.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T14:41:16.69Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
               "Title": "EfectoEspectroCircular.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoEspectroCircular.cs",
               "RelativeDocumentMoniker": "EfectosVisuales\\EfectoEspectroCircular.cs",
@@ -227,12 +241,11 @@
               "RelativeToolTip": "EfectosVisuales\\EfectoEspectroCircular.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:40:30.509Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T14:40:30.509Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "EfectoAnillosConcentricos.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoAnillosConcentricos.cs",
               "RelativeDocumentMoniker": "EfectosVisuales\\EfectoAnillosConcentricos.cs",
@@ -240,12 +253,11 @@
               "RelativeToolTip": "EfectosVisuales\\EfectoAnillosConcentricos.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAcAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:39:57.971Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T14:39:57.971Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "EfectoEcualizadorLED.cs",
               "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\EfectosVisuales\\EfectoEcualizadorLED.cs",
               "RelativeDocumentMoniker": "EfectosVisuales\\EfectoEcualizadorLED.cs",
@@ -253,8 +265,7 @@
               "RelativeToolTip": "EfectosVisuales\\EfectoEcualizadorLED.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T14:40:08.403Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T14:40:08.403Z"
             }
           ]
         }
