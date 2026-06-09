@@ -16,7 +16,7 @@ namespace ReproductorMusical
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new ReproductorMusical());
+            Application.Run(new FrmReproductorMusical());
         }
     }
 }

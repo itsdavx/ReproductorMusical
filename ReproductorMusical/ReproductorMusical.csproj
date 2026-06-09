@@ -92,13 +92,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controlador\ReproductorControlador.cs" />
+    <Compile Include="EfectosVisuales\EfectoAnillosConcentricos.cs" />
+    <Compile Include="EfectosVisuales\EfectoBarrasVerticales.cs" />
+    <Compile Include="EfectosVisuales\EfectoEcualizadorLED.cs" />
+    <Compile Include="EfectosVisuales\EfectoEspectroCircular.cs" />
+    <Compile Include="EfectosVisuales\EfectoOndasDeSonido.cs" />
+    <Compile Include="EfectosVisuales\EfectoOsciloscopio.cs" />
+    <Compile Include="EfectosVisuales\EfectoParticulas.cs" />
+    <Compile Include="EfectosVisuales\EfectoPicosDeFrecuencia.cs" />
+    <Compile Include="EfectosVisuales\IEfectoVisual.cs" />
+    <Compile Include="Modelo\PistaMusical.cs" />
+    <Compile Include="Modelo\ReproductorModelo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Vista\ReproductorMusical.cs">
+    <Compile Include="Vista\FrmReproductorMusical.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Vista\ReproductorMusical.Designer.cs">
-      <DependentUpon>ReproductorMusical.cs</DependentUpon>
+    <Compile Include="Vista\FrmReproductorMusical.Designer.cs">
+      <DependentUpon>FrmReproductorMusical.cs</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -109,11 +121,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="Vista\ReproductorMusical.resx">
-      <DependentUpon>ReproductorMusical.cs</DependentUpon>
+    <EmbeddedResource Include="Vista\FrmReproductorMusical.resx">
+      <DependentUpon>FrmReproductorMusical.cs</DependentUpon>
     </EmbeddedResource>
-    <None Include="Graficos\img\Bases-de-postulacion.pdf" />
-    <None Include="Graficos\img\desktop.ini" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -128,15 +138,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controlador\" />
-    <Folder Include="Librerias\" />
-    <Folder Include="Modelo\" />
-    <Folder Include="Recursos\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Graficos\img\logo2.png" />
-    <Content Include="Graficos\img\musicalogo.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -3,12 +3,12 @@
   "WorkspaceRootPath": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|c:\\users\\lenovo\\source\\repos\\computacion grafica - codigos\\proyecto final\\reproductormusical\\reproductormusical\\vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\vista\\reproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:vista\\reproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{49BEE1FB-AFF4-445E-8044-B3C64FEDE63E}|ReproductorMusical.csproj|solutionrelative:vista\\frmreproductormusical.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -47,26 +47,26 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Program.cs",
-              "RelativeDocumentMoniker": "Program.cs",
-              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Program.cs",
-              "RelativeToolTip": "Program.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAABBAAAAAAAAAA==",
+              "Title": "FrmReproductorMusical.cs [Dise\u00F1o]",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
+              "RelativeDocumentMoniker": "Vista\\FrmReproductorMusical.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs [Dise\u00F1o]",
+              "RelativeToolTip": "Vista\\FrmReproductorMusical.cs [Dise\u00F1o]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-06-09T12:53:32.234Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-06-09T13:46:38.818Z",
+              "EditorCaption": " [Dise\u00F1o]"
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "ReproductorMusical.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\ReproductorMusical.cs",
-              "RelativeDocumentMoniker": "Vista\\ReproductorMusical.cs",
-              "ToolTip": "C:\\Users\\LENOVO LEGION\\source\\repos\\ReproductorMusical\\ReproductorMusical\\Vista\\ReproductorMusical.cs [Design]",
-              "RelativeToolTip": "..\\..\\..\\..\\..\\..\\..\\LENOVO LEGION\\source\\repos\\ReproductorMusical\\ReproductorMusical\\Vista\\ReproductorMusical.cs [Design]",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003525|",
-              "WhenOpened": "2026-06-09T12:53:32.371Z"
+              "Title": "FrmReproductorMusical.cs",
+              "DocumentMoniker": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
+              "RelativeDocumentMoniker": "Vista\\FrmReproductorMusical.cs",
+              "ToolTip": "C:\\Users\\LENOVO\\source\\repos\\Computacion Grafica - Codigos\\Proyecto Final\\ReproductorMusical\\ReproductorMusical\\Vista\\FrmReproductorMusical.cs",
+              "RelativeToolTip": "Vista\\FrmReproductorMusical.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAADgvxgAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-06-09T13:46:37.618Z"
             }
           ]
         }
