@@ -28,20 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // FrmPrincipal
-            // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.components = new System.ComponentModel.Container();
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1270, 774);
-            this.IsMdiContainer = true;
-            this.Name = "FrmPrincipal";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Reproductor Musical";
-            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
-            this.ResumeLayout(false);
-
+            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Text = "FrmPrincipal";
         }
 
         #endregion
