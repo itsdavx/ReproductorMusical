@@ -12,6 +12,7 @@ namespace ReproductorMusical.Controlador
     {
         // DEPENDENCIAS
         private readonly ReproductorModelo modelo;
+        public Action OnStopReproduccion;
 
         // ESTADO INTERNO
         private List<PistaMusical> listaPistas = new List<PistaMusical>();
@@ -33,7 +34,7 @@ namespace ReproductorMusical.Controlador
         public Action<string> OnErrorReproduccion;      // muestra errores al usuario
 
         // COLOR DE FONDO DEL PANEL DE VISUALIZACION (depende del tema)
-        public Color ColorFondoGrafico = Color.FromArgb(30, 30, 30);
+        public Color ColorFondoGrafico = Color.FromArgb(20,20,20);
 
         public ReproductorControlador(ReproductorModelo modelo)
         {
@@ -142,6 +143,8 @@ namespace ReproductorMusical.Controlador
             if (OnDuracionActualizada != null) OnDuracionActualizada("00:00");
             if (OnProgresoActualizado != null) OnProgresoActualizado(0);
             if (OnRedibujarGrafico != null) OnRedibujarGrafico();
+
+            if (OnStopReproduccion != null) OnStopReproduccion();
         }
 
         public void Next()
@@ -187,7 +190,8 @@ namespace ReproductorMusical.Controlador
 
             if (!modelo.EstaReproduciendo && !modelo.EstaPausado)
             {
-                DibujarLineaEspera(g, ancho, alto);
+
+
                 return;
             }
 
@@ -256,20 +260,5 @@ namespace ReproductorMusical.Controlador
             }
         }
 
-        private void DibujarLineaEspera(Graphics g, int ancho, int alto)
-        {
-            Color colorLinea = ColorFondoGrafico == Color.FromArgb(30, 30, 30)
-                ? Color.FromArgb(0, 80, 0)
-                : Color.FromArgb(0, 150, 0);
-
-            using (Pen penBase = new Pen(colorLinea, 2))
-            {
-                string nombre = efectoActual != null ? efectoActual.Nombre : "";
-                if (nombre == "Espectro Circular" || nombre == "Anillos Concéntricos")
-                    g.DrawEllipse(penBase, ancho / 2 - 40, alto / 2 - 40, 80, 80);
-                else
-                    g.DrawLine(penBase, 5, alto - 5, ancho - 5, alto - 5);
-            }
-        }
     }
 }

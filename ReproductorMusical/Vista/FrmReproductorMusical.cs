@@ -46,6 +46,9 @@ namespace ReproductorMusical
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
 
+            controlador.OnStopReproduccion = ResetearPlayPause;
+
+
         }
 
         // EVENTOS DE BOTONES — solo delegan al controlador
@@ -172,17 +175,25 @@ namespace ReproductorMusical
 
             Color colorFondo;
             Color colorTexto;
+            Color colorSecundario;
+            Color colorFondoElementos;
 
             if (temaOscuro)
             {
-                colorFondo = Color.FromArgb(18,18,18);
-                colorTexto = Color.FromArgb(234,234,234);
+                // 🌑 Tema Oscuro
+                colorFondo = Color.FromArgb(18, 18, 18);
+                colorFondoElementos = Color.FromArgb(20, 20, 20);  // Fondo de elementos
+                colorTexto = Color.FromArgb(234, 234, 234);       // Texto principal
+                colorSecundario = Color.FromArgb(176, 176, 176);  // Texto secundario
                 btnTema.Text = "🌙";
             }
             else
             {
-                colorFondo = Color.FromArgb(234,234,234);
-                colorTexto = Color.FromArgb(18,18,18);
+                // ☀️ Tema Claro
+                colorFondo = Color.FromArgb(245, 245, 245);
+                colorFondoElementos = Color.FromArgb(230, 230, 230); // Fondo de elementos
+                colorTexto = Color.FromArgb(30, 30, 30);          // Texto principal
+                colorSecundario = Color.FromArgb(85, 85, 85);     // Texto secundario
                 btnTema.Text = "☀️";
             }
 
@@ -192,20 +203,21 @@ namespace ReproductorMusical
             // PANEL DE GRAFICO
             pnl_grafico.BackColor = colorFondo;
 
+            //PANEL IMAGEN
+            pnlCancionImagen.BackColor = colorFondoElementos;
             // ETIQUETAS
             lvl_volumen.BackColor = colorFondo;
             lvl_volumen.ForeColor = colorTexto;
             lbl_track_start.ForeColor = colorTexto;
             lbl_track_end.ForeColor = colorTexto;
             lblVolume.ForeColor = colorTexto;
-            lblMusicalEffects.ForeColor = colorTexto;
+            lblMusicalEffects.ForeColor = colorSecundario; // secundario para diferenciar
             lblMuSync.ForeColor = colorTexto;
 
             // BOTONES
             btn_preview.ForeColor = colorTexto;
             btn_next.ForeColor = colorTexto;
-            btnPlayPause.ForeColor = colorTexto;
-            btnPlayPause.ForeColor = colorTexto;
+            btnPlayPause.ForeColor = colorTexto; // ahora es el único botón
             btn_stop.ForeColor = colorTexto;
             btn_open.ForeColor = colorTexto;
             btnTema.ForeColor = colorTexto;
@@ -215,7 +227,7 @@ namespace ReproductorMusical
             cmbEfectosMusicales.ForeColor = colorTexto;
 
             // LISTBOX DE PISTAS
-            track_list.BackColor = colorFondo;
+            track_list.BackColor = colorFondoElementos;
             track_list.ForeColor = colorTexto;
 
             // TRACKBAR DE VOLUMEN
@@ -225,6 +237,7 @@ namespace ReproductorMusical
             controlador.ColorFondoGrafico = colorFondo;
             pnl_grafico.Invalidate();
         }
+
 
         private void btnPlayPause_Click(object sender, EventArgs e)
         {
@@ -249,5 +262,12 @@ namespace ReproductorMusical
                 reproduciendo = false;
             }
         }
+
+        private void ResetearPlayPause()
+        {
+            reproduciendo = false;
+            btnPlayPause.Text = "▶"; // vuelve al símbolo de Play
+        }
+
     }
 }
