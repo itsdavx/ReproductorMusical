@@ -26,11 +26,14 @@ namespace ReproductorMusical.Controlador
         private float[] bufferMuestras = new float[FFT_LENGTH];
 
         // CALLBACKS HACIA LA VISTA (evita acoplamiento directo)
-        public Action<string> OnTiempoActualizado;   // "mm:ss" del tiempo actual
-        public Action<string> OnDuracionActualizada; // "mm:ss" de la duración total
-        public Action<int> OnProgresoActualizado;  // valor 0-100 para el ProgressBar
-        public Action OnRedibujarGrafico;     // pide Invalidate() al panel
-        public Action<string> OnErrorReproduccion;   // muestra errores al usuario
+        public Action<string> OnTiempoActualizado;      // "mm:ss" del tiempo actual
+        public Action<string> OnDuracionActualizada;    // "mm:ss" de la duración total
+        public Action<int> OnProgresoActualizado;       // valor 0-100 para el ProgressBar
+        public Action OnRedibujarGrafico;               // pide Invalidate() al panel
+        public Action<string> OnErrorReproduccion;      // muestra errores al usuario
+
+        // COLOR DE FONDO DEL PANEL DE VISUALIZACION (depende del tema)
+        public Color ColorFondoGrafico = Color.FromArgb(30, 30, 30);
 
         public ReproductorControlador(ReproductorModelo modelo)
         {
@@ -180,7 +183,7 @@ namespace ReproductorMusical.Controlador
         public void RenderizarEfecto(Graphics g, int ancho, int alto)
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-            g.Clear(Color.Black);
+            g.Clear(ColorFondoGrafico);
 
             if (!modelo.EstaReproduciendo && !modelo.EstaPausado)
             {
@@ -255,7 +258,11 @@ namespace ReproductorMusical.Controlador
 
         private void DibujarLineaEspera(Graphics g, int ancho, int alto)
         {
-            using (Pen penBase = new Pen(Color.FromArgb(0, 80, 0), 2))
+            Color colorLinea = ColorFondoGrafico == Color.FromArgb(30, 30, 30)
+                ? Color.FromArgb(0, 80, 0)
+                : Color.FromArgb(0, 150, 0);
+
+            using (Pen penBase = new Pen(colorLinea, 2))
             {
                 string nombre = efectoActual != null ? efectoActual.Nombre : "";
                 if (nombre == "Espectro Circular" || nombre == "Anillos Concéntricos")

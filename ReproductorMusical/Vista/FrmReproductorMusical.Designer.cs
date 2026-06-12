@@ -43,9 +43,9 @@
             this.pnl_grafico = new System.Windows.Forms.Panel();
             this.lblVolume = new System.Windows.Forms.Label();
             this.cmbEfectosMusicales = new System.Windows.Forms.ComboBox();
-            this.label1 = new System.Windows.Forms.Label();
+            this.lblMusicalEffects = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblMuSync = new System.Windows.Forms.Label();
             this.track_list = new System.Windows.Forms.ListBox();
             this.btnTema = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).BeginInit();
@@ -137,9 +137,9 @@
             // 
             // p_bar
             // 
-            this.p_bar.Location = new System.Drawing.Point(100, 807);
+            this.p_bar.Location = new System.Drawing.Point(78, 807);
             this.p_bar.Name = "p_bar";
-            this.p_bar.Size = new System.Drawing.Size(846, 10);
+            this.p_bar.Size = new System.Drawing.Size(884, 10);
             this.p_bar.TabIndex = 6;
             this.p_bar.Click += new System.EventHandler(this.p_bar_Click);
             // 
@@ -175,7 +175,7 @@
             this.lbl_track_start.AutoSize = true;
             this.lbl_track_start.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_track_start.ForeColor = System.Drawing.Color.White;
-            this.lbl_track_start.Location = new System.Drawing.Point(51, 801);
+            this.lbl_track_start.Location = new System.Drawing.Point(27, 801);
             this.lbl_track_start.Name = "lbl_track_start";
             this.lbl_track_start.Size = new System.Drawing.Size(45, 19);
             this.lbl_track_start.TabIndex = 12;
@@ -187,7 +187,7 @@
             this.lbl_track_end.AutoSize = true;
             this.lbl_track_end.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_track_end.ForeColor = System.Drawing.Color.White;
-            this.lbl_track_end.Location = new System.Drawing.Point(952, 801);
+            this.lbl_track_end.Location = new System.Drawing.Point(968, 801);
             this.lbl_track_end.Name = "lbl_track_end";
             this.lbl_track_end.Size = new System.Drawing.Size(45, 19);
             this.lbl_track_end.TabIndex = 13;
@@ -217,7 +217,6 @@
             // cmbEfectosMusicales
             // 
             this.cmbEfectosMusicales.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
-            this.cmbEfectosMusicales.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.cmbEfectosMusicales.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbEfectosMusicales.ForeColor = System.Drawing.Color.White;
             this.cmbEfectosMusicales.FormattingEnabled = true;
@@ -227,32 +226,32 @@
             this.cmbEfectosMusicales.TabIndex = 16;
             this.cmbEfectosMusicales.SelectedIndexChanged += new System.EventHandler(this.cmbEfectosMusicales_SelectedIndexChanged);
             // 
-            // label1
+            // lblMusicalEffects
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.White;
-            this.label1.Location = new System.Drawing.Point(27, 462);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(142, 20);
-            this.label1.TabIndex = 17;
-            this.label1.Text = "Musical Effects :";
+            this.lblMusicalEffects.AutoSize = true;
+            this.lblMusicalEffects.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMusicalEffects.ForeColor = System.Drawing.Color.White;
+            this.lblMusicalEffects.Location = new System.Drawing.Point(27, 462);
+            this.lblMusicalEffects.Name = "lblMusicalEffects";
+            this.lblMusicalEffects.Size = new System.Drawing.Size(142, 20);
+            this.lblMusicalEffects.TabIndex = 17;
+            this.lblMusicalEffects.Text = "Musical Effects :";
             // 
             // timer1
             // 
             this.timer1.Enabled = true;
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
-            // label2
+            // lblMuSync
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.White;
-            this.label2.Location = new System.Drawing.Point(441, 24);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(160, 42);
-            this.label2.TabIndex = 18;
-            this.label2.Text = "MuSync";
+            this.lblMuSync.AutoSize = true;
+            this.lblMuSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMuSync.ForeColor = System.Drawing.Color.White;
+            this.lblMuSync.Location = new System.Drawing.Point(441, 24);
+            this.lblMuSync.Name = "lblMuSync";
+            this.lblMuSync.Size = new System.Drawing.Size(160, 42);
+            this.lblMuSync.TabIndex = 18;
+            this.lblMuSync.Text = "MuSync";
             // 
             // track_list
             // 
@@ -278,8 +277,9 @@
             this.btnTema.Name = "btnTema";
             this.btnTema.Size = new System.Drawing.Size(75, 50);
             this.btnTema.TabIndex = 19;
-            this.btnTema.Text = "☀️";
+            this.btnTema.Text = "🌙";
             this.btnTema.UseVisualStyleBackColor = true;
+            this.btnTema.Click += new System.EventHandler(this.btnTema_Click);
             // 
             // FrmReproductorMusical
             // 
@@ -301,8 +301,8 @@
             this.Controls.Add(this.btn_play);
             this.Controls.Add(this.btn_next);
             this.Controls.Add(this.btn_preview);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.lblMuSync);
+            this.Controls.Add(this.lblMusicalEffects);
             this.Controls.Add(this.cmbEfectosMusicales);
             this.Controls.Add(this.pnl_grafico);
             this.ForeColor = System.Drawing.Color.Coral;
@@ -331,10 +331,10 @@
         private System.Windows.Forms.Label lbl_track_end;
         private System.Windows.Forms.Panel pnl_grafico;
         private System.Windows.Forms.ComboBox cmbEfectosMusicales;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label lblMusicalEffects;
         private System.Windows.Forms.Label lblVolume;
         private System.Windows.Forms.Timer timer1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label lblMuSync;
         private System.Windows.Forms.ListBox track_list;
         private System.Windows.Forms.Button btnTema;
     }

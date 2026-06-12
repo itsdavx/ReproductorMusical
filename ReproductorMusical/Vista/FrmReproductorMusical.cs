@@ -1,7 +1,8 @@
-﻿using System;
-using System.Windows.Forms;
-using ReproductorMusical.Controlador;
+﻿using ReproductorMusical.Controlador;
 using ReproductorMusical.Modelo;
+using System;
+using System.Drawing;
+using System.Windows.Forms;
 
 namespace ReproductorMusical
 {
@@ -9,7 +10,7 @@ namespace ReproductorMusical
     {
         // DEPENDENCIAS MVC
         private readonly ReproductorControlador controlador;
-
+        private bool temaOscuro = true;
         public FrmReproductorMusical()
         {
             InitializeComponent();
@@ -17,6 +18,7 @@ namespace ReproductorMusical
             // Construye el modelo y el controlador
             ReproductorModelo modelo = new ReproductorModelo();
             controlador = new ReproductorControlador(modelo);
+
 
             // Suscribe los callbacks del controlador a los controles de la vista
             controlador.OnTiempoActualizado = ActualizarTiempoActual;
@@ -42,6 +44,7 @@ namespace ReproductorMusical
             // Configuración para eliminar el botón de maximizar
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
+
         }
 
         // EVENTOS DE BOTONES — solo delegan al controlador
@@ -171,5 +174,65 @@ namespace ReproductorMusical
         private void timer1_Tick(object sender, EventArgs e) { }
         private void lbl_track_start_Click(object sender, EventArgs e) { }
         private void lbl_track_end_Click(object sender, EventArgs e) { }
+
+        private void btnTema_Click(object sender, EventArgs e)
+        {
+            temaOscuro = !temaOscuro;
+
+            Color colorFondo;
+            Color colorTexto;
+
+            if (temaOscuro)
+            {
+                colorFondo = Color.FromArgb(30, 30, 30);
+                colorTexto = Color.FromArgb(230, 230, 230);
+                btnTema.Text = "🌙";
+            }
+            else
+            {
+                colorFondo = Color.FromArgb(230, 230, 230);
+                colorTexto = Color.FromArgb(30,30,30);
+                btnTema.Text = "☀️";
+            }
+
+            // FORMULARIO
+            this.BackColor = colorFondo;
+
+            // PANEL DE GRAFICO
+            pnl_grafico.BackColor = colorFondo;
+
+            // ETIQUETAS
+            lvl_volumen.BackColor = colorFondo;
+            lvl_volumen.ForeColor = colorTexto;
+            lbl_track_start.ForeColor = colorTexto;
+            lbl_track_end.ForeColor = colorTexto;
+            lblVolume.ForeColor = colorTexto;
+            lblMusicalEffects.ForeColor = colorTexto;
+            lblMuSync.ForeColor = colorTexto;
+
+            // BOTONES
+            btn_preview.ForeColor = colorTexto;
+            btn_next.ForeColor = colorTexto;
+            btn_play.ForeColor = colorTexto;
+            btn_pause.ForeColor = colorTexto;
+            btn_stop.ForeColor = colorTexto;
+            btn_open.ForeColor = colorTexto;
+            btnTema.ForeColor = colorTexto;
+
+            // COMBOBOX
+            cmbEfectosMusicales.BackColor = colorFondo;
+            cmbEfectosMusicales.ForeColor = colorTexto;
+
+            // LISTBOX DE PISTAS
+            track_list.BackColor = colorFondo;
+            track_list.ForeColor = colorTexto;
+
+            // TRACKBAR DE VOLUMEN
+            track_volume.BackColor = colorFondo;
+
+            // Redibuja el panel del efecto visual con los nuevos colores
+            controlador.ColorFondoGrafico = colorFondo;
+            pnl_grafico.Invalidate();
+        }
     }
 }
