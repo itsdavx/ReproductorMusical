@@ -48,6 +48,7 @@
             this.track_list = new System.Windows.Forms.ListBox();
             this.btnTema = new System.Windows.Forms.Button();
             this.pnlCancionImagen = new System.Windows.Forms.Panel();
+            this.btnModo = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -57,7 +58,7 @@
             this.btn_preview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_preview.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_preview.ForeColor = System.Drawing.Color.White;
-            this.btn_preview.Location = new System.Drawing.Point(275, 596);
+            this.btn_preview.Location = new System.Drawing.Point(260, 596);
             this.btn_preview.Name = "btn_preview";
             this.btn_preview.Size = new System.Drawing.Size(75, 50);
             this.btn_preview.TabIndex = 0;
@@ -71,7 +72,7 @@
             this.btn_next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_next.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_next.ForeColor = System.Drawing.Color.White;
-            this.btn_next.Location = new System.Drawing.Point(558, 596);
+            this.btn_next.Location = new System.Drawing.Point(678, 597);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(75, 50);
             this.btn_next.TabIndex = 1;
@@ -85,13 +86,15 @@
             this.btnPlayPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlayPause.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlayPause.ForeColor = System.Drawing.Color.White;
-            this.btnPlayPause.Location = new System.Drawing.Point(466, 596);
+            this.btnPlayPause.Location = new System.Drawing.Point(468, 566);
+            this.btnPlayPause.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlayPause.Name = "btnPlayPause";
-            this.btnPlayPause.Size = new System.Drawing.Size(75, 50);
+            this.btnPlayPause.Size = new System.Drawing.Size(80, 80);
             this.btnPlayPause.TabIndex = 2;
             this.btnPlayPause.Text = "▶";
             this.btnPlayPause.UseVisualStyleBackColor = true;
             this.btnPlayPause.Click += new System.EventHandler(this.btnPlayPause_Click);
+            this.btnPlayPause.Paint += new System.Windows.Forms.PaintEventHandler(this.btnPlayPause_Paint);
             // 
             // btn_stop
             // 
@@ -99,7 +102,7 @@
             this.btn_stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_stop.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_stop.ForeColor = System.Drawing.Color.White;
-            this.btn_stop.Location = new System.Drawing.Point(371, 596);
+            this.btn_stop.Location = new System.Drawing.Point(356, 599);
             this.btn_stop.Name = "btn_stop";
             this.btn_stop.Size = new System.Drawing.Size(75, 50);
             this.btn_stop.TabIndex = 4;
@@ -275,12 +278,27 @@
             this.pnlCancionImagen.Size = new System.Drawing.Size(273, 247);
             this.pnlCancionImagen.TabIndex = 0;
             // 
+            // btnModo
+            // 
+            this.btnModo.FlatAppearance.BorderSize = 0;
+            this.btnModo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnModo.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnModo.ForeColor = System.Drawing.Color.White;
+            this.btnModo.Location = new System.Drawing.Point(582, 599);
+            this.btnModo.Name = "btnModo";
+            this.btnModo.Size = new System.Drawing.Size(75, 50);
+            this.btnModo.TabIndex = 20;
+            this.btnModo.Text = "🔀";
+            this.btnModo.UseVisualStyleBackColor = true;
+            this.btnModo.Click += new System.EventHandler(this.btnModo_Click);
+            // 
             // FrmReproductorMusical
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.ClientSize = new System.Drawing.Size(1046, 736);
+            this.Controls.Add(this.btnModo);
             this.Controls.Add(this.pnlCancionImagen);
             this.Controls.Add(this.btnTema);
             this.Controls.Add(this.lbl_track_end);
@@ -331,6 +349,7 @@
         private System.Windows.Forms.ListBox track_list;
         private System.Windows.Forms.Button btnTema;
         private System.Windows.Forms.Panel pnlCancionImagen;
+        private System.Windows.Forms.Button btnModo;
     }
 }
 

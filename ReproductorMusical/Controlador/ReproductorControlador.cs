@@ -13,6 +13,8 @@ namespace ReproductorMusical.Controlador
         // DEPENDENCIAS
         private readonly ReproductorModelo modelo;
         public Action OnStopReproduccion;
+        public int ModoReproduccion { get; set; } = 1; // por defecto secuencial
+
 
         // ESTADO INTERNO
         private List<PistaMusical> listaPistas = new List<PistaMusical>();
@@ -149,15 +151,52 @@ namespace ReproductorMusical.Controlador
 
         public void Next()
         {
-            if (indicePistaActual < listaPistas.Count - 1)
-                Play(indicePistaActual + 1);
+            if (listaPistas.Count == 0) return;
+
+            switch (ModoReproduccion)
+            {
+                case 0: // 🔀 Aleatorio
+                    int aleatorio = rand.Next(listaPistas.Count);
+                    Play(aleatorio);
+                    break;
+
+                case 1: // ⇉ Secuencial
+                    if (indicePistaActual < listaPistas.Count - 1)
+                        Play(indicePistaActual + 1);
+                    else
+                        Play(0); // vuelve al inicio
+                    break;
+
+                case 2: // 🔂 Repetir 1
+                    Play(indicePistaActual); // misma pista
+                    break;
+            }
         }
 
         public void Previous()
         {
-            if (indicePistaActual > 0)
-                Play(indicePistaActual - 1);
+            if (listaPistas.Count == 0) return;
+
+            switch (ModoReproduccion)
+            {
+                case 0: // 🔀 Aleatorio
+                    int aleatorio = rand.Next(listaPistas.Count);
+                    Play(aleatorio);
+                    break;
+
+                case 1: // ⇉ Secuencial
+                    if (indicePistaActual > 0)
+                        Play(indicePistaActual - 1);
+                    else
+                        Play(listaPistas.Count - 1); // vuelve al final
+                    break;
+
+                case 2: // 🔂 Repetir 1
+                    Play(indicePistaActual); // misma pista
+                    break;
+            }
         }
+
 
         // Ajusta el volumen; valor entre 0 y 100 (desde el TrackBar)
         public void CambiarVolumen(int valorTrackBar, int maximoTrackBar)

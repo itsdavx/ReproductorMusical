@@ -12,6 +12,7 @@ namespace ReproductorMusical
         private readonly ReproductorControlador controlador;
         private bool temaOscuro = true;
         private bool reproduciendo = false;
+        private int modoReproduccion = 0;
         public FrmReproductorMusical()
         {
             InitializeComponent();
@@ -72,11 +73,6 @@ namespace ReproductorMusical
                         track_list.SelectedIndex = 0;
                 }
             }
-        }
-
-        private void btn_pause_Click(object sender, EventArgs e)
-        {
-            controlador.Pause();
         }
 
         private void btn_stop_Click(object sender, EventArgs e)
@@ -267,6 +263,61 @@ namespace ReproductorMusical
         {
             reproduciendo = false;
             btnPlayPause.Text = "▶"; // vuelve al símbolo de Play
+        }
+
+        private void btnPlayPause_Paint(object sender, PaintEventArgs e)
+        {
+            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+
+            // Rectángulo interno para evitar recortes
+            Rectangle rect = new Rectangle(1, 1, btnPlayPause.Width - 2, btnPlayPause.Height - 2);
+
+            // Fondo circular con gradiente
+            using (var brush = new System.Drawing.Drawing2D.LinearGradientBrush(
+                rect,
+                Color.FromArgb(186, 85, 211), // morado brillante
+                Color.FromArgb(0, 191, 255),  // azul eléctrico
+                45f))
+            {
+                e.Graphics.FillEllipse(brush, rect);
+            }
+
+            // Texto centrado (▶ o ||)
+            using (StringFormat sf = new StringFormat()
+            {
+                Alignment = StringAlignment.Center,
+                LineAlignment = StringAlignment.Center
+            })
+            {
+                e.Graphics.DrawString(
+                    btnPlayPause.Text,
+                    btnPlayPause.Font,
+                    Brushes.White,
+                    rect,
+                    sf
+                );
+            }
+        }
+
+
+        private void btnModo_Click(object sender, EventArgs e)
+        {
+            modoReproduccion = (modoReproduccion + 1) % 3;
+
+            switch (modoReproduccion)
+            {
+                case 0:
+                    btnModo.Text = "🔀"; // Aleatorio
+                    break;
+                case 1:
+                    btnModo.Text = "🔁"; // Secuencial
+                    break;
+                case 2:
+                    btnModo.Text = "🔂"; // Repetir 1
+                    break;
+            }
+
+            controlador.ModoReproduccion = modoReproduccion; // sincroniza con controlador
         }
 
     }
