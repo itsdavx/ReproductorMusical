@@ -38,6 +38,10 @@ namespace ReproductorMusical
                 ControlStyles.UserPaint,
                 true
             );
+
+            // Configuración para eliminar el botón de maximizar
+            this.MaximizeBox = false;
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
         }
 
         // EVENTOS DE BOTONES — solo delegan al controlador
