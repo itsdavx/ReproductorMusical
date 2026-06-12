@@ -11,6 +11,7 @@ namespace ReproductorMusical
         // DEPENDENCIAS MVC
         private readonly ReproductorControlador controlador;
         private bool temaOscuro = true;
+        private bool reproduciendo = false;
         public FrmReproductorMusical()
         {
             InitializeComponent();
@@ -68,16 +69,6 @@ namespace ReproductorMusical
                         track_list.SelectedIndex = 0;
                 }
             }
-        }
-
-        private void btn_play_Click(object sender, EventArgs e)
-        {
-            if (track_list.SelectedIndex == -1)
-            {
-                MessageBox.Show("Por favor, selecciona una canción de la lista.");
-                return;
-            }
-            controlador.Play(track_list.SelectedIndex);
         }
 
         private void btn_pause_Click(object sender, EventArgs e)
@@ -184,14 +175,14 @@ namespace ReproductorMusical
 
             if (temaOscuro)
             {
-                colorFondo = Color.FromArgb(30, 30, 30);
-                colorTexto = Color.FromArgb(230, 230, 230);
+                colorFondo = Color.FromArgb(18,18,18);
+                colorTexto = Color.FromArgb(234,234,234);
                 btnTema.Text = "🌙";
             }
             else
             {
-                colorFondo = Color.FromArgb(230, 230, 230);
-                colorTexto = Color.FromArgb(30,30,30);
+                colorFondo = Color.FromArgb(234,234,234);
+                colorTexto = Color.FromArgb(18,18,18);
                 btnTema.Text = "☀️";
             }
 
@@ -213,8 +204,8 @@ namespace ReproductorMusical
             // BOTONES
             btn_preview.ForeColor = colorTexto;
             btn_next.ForeColor = colorTexto;
-            btn_play.ForeColor = colorTexto;
-            btn_pause.ForeColor = colorTexto;
+            btnPlayPause.ForeColor = colorTexto;
+            btnPlayPause.ForeColor = colorTexto;
             btn_stop.ForeColor = colorTexto;
             btn_open.ForeColor = colorTexto;
             btnTema.ForeColor = colorTexto;
@@ -233,6 +224,30 @@ namespace ReproductorMusical
             // Redibuja el panel del efecto visual con los nuevos colores
             controlador.ColorFondoGrafico = colorFondo;
             pnl_grafico.Invalidate();
+        }
+
+        private void btnPlayPause_Click(object sender, EventArgs e)
+        {
+            if (track_list.SelectedIndex == -1)
+            {
+                MessageBox.Show("Por favor, selecciona una canción de la lista.");
+                return;
+            }
+
+            if (!reproduciendo)
+            {
+                // ▶ Reproducir
+                controlador.Play(track_list.SelectedIndex);
+                btnPlayPause.Text = "||"; // Cambia a símbolo de pausa
+                reproduciendo = true;
+            }
+            else
+            {
+                // || Pausar
+                controlador.Pause();
+                btnPlayPause.Text = "▶"; // Cambia a símbolo de play
+                reproduciendo = false;
+            }
         }
     }
 }

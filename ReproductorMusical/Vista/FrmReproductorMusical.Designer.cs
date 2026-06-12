@@ -31,8 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.btn_preview = new System.Windows.Forms.Button();
             this.btn_next = new System.Windows.Forms.Button();
-            this.btn_play = new System.Windows.Forms.Button();
-            this.btn_pause = new System.Windows.Forms.Button();
+            this.btnPlayPause = new System.Windows.Forms.Button();
             this.btn_stop = new System.Windows.Forms.Button();
             this.btn_open = new System.Windows.Forms.Button();
             this.p_bar = new System.Windows.Forms.ProgressBar();
@@ -71,7 +70,7 @@
             this.btn_next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_next.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_next.ForeColor = System.Drawing.Color.White;
-            this.btn_next.Location = new System.Drawing.Point(650, 735);
+            this.btn_next.Location = new System.Drawing.Point(552, 735);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(75, 50);
             this.btn_next.TabIndex = 1;
@@ -79,33 +78,19 @@
             this.btn_next.UseVisualStyleBackColor = true;
             this.btn_next.Click += new System.EventHandler(this.btn_next_Click);
             // 
-            // btn_play
+            // btnPlayPause
             // 
-            this.btn_play.FlatAppearance.BorderSize = 0;
-            this.btn_play.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_play.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_play.ForeColor = System.Drawing.Color.White;
-            this.btn_play.Location = new System.Drawing.Point(460, 735);
-            this.btn_play.Name = "btn_play";
-            this.btn_play.Size = new System.Drawing.Size(75, 50);
-            this.btn_play.TabIndex = 2;
-            this.btn_play.Text = "▶";
-            this.btn_play.UseVisualStyleBackColor = true;
-            this.btn_play.Click += new System.EventHandler(this.btn_play_Click);
-            // 
-            // btn_pause
-            // 
-            this.btn_pause.FlatAppearance.BorderSize = 0;
-            this.btn_pause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_pause.Font = new System.Drawing.Font("Microsoft Sans Serif", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_pause.ForeColor = System.Drawing.Color.White;
-            this.btn_pause.Location = new System.Drawing.Point(554, 735);
-            this.btn_pause.Name = "btn_pause";
-            this.btn_pause.Size = new System.Drawing.Size(75, 50);
-            this.btn_pause.TabIndex = 3;
-            this.btn_pause.Text = "||";
-            this.btn_pause.UseVisualStyleBackColor = true;
-            this.btn_pause.Click += new System.EventHandler(this.btn_pause_Click);
+            this.btnPlayPause.FlatAppearance.BorderSize = 0;
+            this.btnPlayPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnPlayPause.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnPlayPause.ForeColor = System.Drawing.Color.White;
+            this.btnPlayPause.Location = new System.Drawing.Point(460, 735);
+            this.btnPlayPause.Name = "btnPlayPause";
+            this.btnPlayPause.Size = new System.Drawing.Size(75, 50);
+            this.btnPlayPause.TabIndex = 2;
+            this.btnPlayPause.Text = "▶";
+            this.btnPlayPause.UseVisualStyleBackColor = true;
+            this.btnPlayPause.Click += new System.EventHandler(this.btnPlayPause_Click);
             // 
             // btn_stop
             // 
@@ -230,7 +215,7 @@
             // 
             this.lblMusicalEffects.AutoSize = true;
             this.lblMusicalEffects.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMusicalEffects.ForeColor = System.Drawing.Color.White;
+            this.lblMusicalEffects.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(176)))), ((int)(((byte)(176)))));
             this.lblMusicalEffects.Location = new System.Drawing.Point(27, 462);
             this.lblMusicalEffects.Name = "lblMusicalEffects";
             this.lblMusicalEffects.Size = new System.Drawing.Size(142, 20);
@@ -246,7 +231,7 @@
             // 
             this.lblMuSync.AutoSize = true;
             this.lblMuSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMuSync.ForeColor = System.Drawing.Color.White;
+            this.lblMuSync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
             this.lblMuSync.Location = new System.Drawing.Point(441, 24);
             this.lblMuSync.Name = "lblMuSync";
             this.lblMuSync.Size = new System.Drawing.Size(160, 42);
@@ -285,7 +270,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.ClientSize = new System.Drawing.Size(1046, 859);
             this.Controls.Add(this.btnTema);
             this.Controls.Add(this.lbl_track_end);
@@ -296,9 +281,8 @@
             this.Controls.Add(this.lvl_volumen);
             this.Controls.Add(this.btn_stop);
             this.Controls.Add(this.lblVolume);
-            this.Controls.Add(this.btn_pause);
             this.Controls.Add(this.track_volume);
-            this.Controls.Add(this.btn_play);
+            this.Controls.Add(this.btnPlayPause);
             this.Controls.Add(this.btn_next);
             this.Controls.Add(this.btn_preview);
             this.Controls.Add(this.lblMuSync);
@@ -320,8 +304,7 @@
 
         private System.Windows.Forms.Button btn_preview;
         private System.Windows.Forms.Button btn_next;
-        private System.Windows.Forms.Button btn_play;
-        private System.Windows.Forms.Button btn_pause;
+        private System.Windows.Forms.Button btnPlayPause;
         private System.Windows.Forms.Button btn_stop;
         private System.Windows.Forms.Button btn_open;
         private System.Windows.Forms.ProgressBar p_bar;
