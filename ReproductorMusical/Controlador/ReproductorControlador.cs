@@ -13,7 +13,7 @@ namespace ReproductorMusical.Controlador
         private readonly ReproductorModelo modelo;
         public Action OnStopReproduccion;
         public int ModoReproduccion { get; set; } = 1;
-        public Action<string> OnAlbumCambiado;
+        public Action<System.Drawing.Image> OnAlbumCambiado;
 
         // ESTADO INTERNO
         private List<PistaMusical> listaPistas = new List<PistaMusical>();
@@ -133,9 +133,9 @@ namespace ReproductorMusical.Controlador
                 if (OnSincronizarLista != null)
                     OnSincronizarLista();
 
-                // Notifica el nombre del álbum para que la vista cargue la imagen
+                // En Play(), reemplaza la línea de OnAlbumCambiado por esta:
                 if (OnAlbumCambiado != null)
-                    OnAlbumCambiado(listaPistas[indicePista].NombreAlbum);
+                    OnAlbumCambiado(listaPistas[indicePista].Portada);
 
                 IniciarTimer();
             }

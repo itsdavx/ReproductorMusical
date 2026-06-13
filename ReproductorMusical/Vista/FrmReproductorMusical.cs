@@ -317,35 +317,26 @@ namespace ReproductorMusical
             controlador.ModoReproduccion = modoReproduccion;
         }
 
-        // Método nuevo que carga la imagen según el nombre del álbum
-        private void CambiarImagenAlbum(string nombreAlbum)
+        // Reemplaza el método CambiarImagenAlbum completo:
+        private void CambiarImagenAlbum(System.Drawing.Image portada)
         {
-            // Construye la ruta hacia ImgAlbum dentro de Resources
-            // Application.StartupPath apunta a la carpeta bin/Debug o bin/Release
-            string carpetaImagenes = System.IO.Path.Combine(
-                Application.StartupPath,
-                "Resources", "ImgAlbum"
-            );
-
-            // Limpia imagen anterior
+            // Libera la imagen anterior para no acumular memoria
             if (pnlCancionImagen.BackgroundImage != null)
             {
-                Image anterior = pnlCancionImagen.BackgroundImage;
+                System.Drawing.Image anterior = pnlCancionImagen.BackgroundImage;
                 pnlCancionImagen.BackgroundImage = null;
                 anterior.Dispose();
             }
 
-            if (string.IsNullOrWhiteSpace(nombreAlbum))
-                return;
-
-            // Busca el archivo .jpg cuyo nombre coincida con el tag Album
-            string rutaImagen = System.IO.Path.Combine(carpetaImagenes, nombreAlbum + ".jpg");
-
-            if (System.IO.File.Exists(rutaImagen))
+            if (portada != null)
             {
-                // Carga la imagen y la muestra en el panel escalada y centrada
-                pnlCancionImagen.BackgroundImage = Image.FromFile(rutaImagen);
+                // Usa la portada embebida del mp3
+                pnlCancionImagen.BackgroundImage = portada;
                 pnlCancionImagen.BackgroundImageLayout = ImageLayout.Zoom;
+            }
+            else
+            {
+                    pnlCancionImagen.BackgroundImage = Properties.Resources.NoPortada;
             }
         }
     }

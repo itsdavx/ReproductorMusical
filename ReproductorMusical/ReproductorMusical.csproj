@@ -161,12 +161,6 @@
     <None Include="Resources\ImgAlbum\NoPortada.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\ImgAlbum\OMAKASE.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Resources\ImgAlbum\DTmF.jpg" />
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
       <ProductName>Microsoft .NET Framework 4.7.2 %28x86 y x64%29</ProductName>
