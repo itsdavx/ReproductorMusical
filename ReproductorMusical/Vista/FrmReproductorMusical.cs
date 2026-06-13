@@ -50,6 +50,7 @@ namespace ReproductorMusical
             );
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.Icon = Properties.Resources.IconoReproductor;
         }
 
         // EVENTOS DE BOTONES
