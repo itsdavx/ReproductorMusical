@@ -51,6 +51,7 @@ namespace ReproductorMusical
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.Icon = Properties.Resources.IconoReproductor;
+            controlador.OnAlbumCambiado = CambiarImagenAlbum;
         }
 
         // EVENTOS DE BOTONES
@@ -314,6 +315,38 @@ namespace ReproductorMusical
             }
 
             controlador.ModoReproduccion = modoReproduccion;
+        }
+
+        // Método nuevo que carga la imagen según el nombre del álbum
+        private void CambiarImagenAlbum(string nombreAlbum)
+        {
+            // Construye la ruta hacia ImgAlbum dentro de Resources
+            // Application.StartupPath apunta a la carpeta bin/Debug o bin/Release
+            string carpetaImagenes = System.IO.Path.Combine(
+                Application.StartupPath,
+                "Resources", "ImgAlbum"
+            );
+
+            // Limpia imagen anterior
+            if (pnlCancionImagen.BackgroundImage != null)
+            {
+                Image anterior = pnlCancionImagen.BackgroundImage;
+                pnlCancionImagen.BackgroundImage = null;
+                anterior.Dispose();
+            }
+
+            if (string.IsNullOrWhiteSpace(nombreAlbum))
+                return;
+
+            // Busca el archivo .jpg cuyo nombre coincida con el tag Album
+            string rutaImagen = System.IO.Path.Combine(carpetaImagenes, nombreAlbum + ".jpg");
+
+            if (System.IO.File.Exists(rutaImagen))
+            {
+                // Carga la imagen y la muestra en el panel escalada y centrada
+                pnlCancionImagen.BackgroundImage = Image.FromFile(rutaImagen);
+                pnlCancionImagen.BackgroundImageLayout = ImageLayout.Zoom;
+            }
         }
     }
 }

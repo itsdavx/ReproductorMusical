@@ -13,6 +13,7 @@ namespace ReproductorMusical.Controlador
         private readonly ReproductorModelo modelo;
         public Action OnStopReproduccion;
         public int ModoReproduccion { get; set; } = 1;
+        public Action<string> OnAlbumCambiado;
 
         // ESTADO INTERNO
         private List<PistaMusical> listaPistas = new List<PistaMusical>();
@@ -104,6 +105,7 @@ namespace ReproductorMusical.Controlador
 
         // REPRODUCCIÓN
 
+        // En Play(), después de IniciarTimer() agregar:
         public void Play(int indicePista)
         {
             if (indicePista < 0 || indicePista >= listaPistas.Count)
@@ -116,7 +118,6 @@ namespace ReproductorMusical.Controlador
                 return;
             }
 
-            // Bloquea el timer para que no detecte fin falso durante el cambio
             cambiandoPista = true;
 
             try
@@ -129,9 +130,12 @@ namespace ReproductorMusical.Controlador
                 if (OnDuracionActualizada != null)
                     OnDuracionActualizada(modelo.DuracionTotal.ToString(@"mm\:ss"));
 
-                // Sincroniza el ListBox desde aquí, no desde la vista
                 if (OnSincronizarLista != null)
                     OnSincronizarLista();
+
+                // Notifica el nombre del álbum para que la vista cargue la imagen
+                if (OnAlbumCambiado != null)
+                    OnAlbumCambiado(listaPistas[indicePista].NombreAlbum);
 
                 IniciarTimer();
             }
@@ -142,7 +146,6 @@ namespace ReproductorMusical.Controlador
             }
             finally
             {
-                // Libera el bloqueo siempre, incluso si hubo excepción
                 cambiandoPista = false;
             }
         }

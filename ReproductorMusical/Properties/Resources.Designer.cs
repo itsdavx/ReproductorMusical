@@ -61,16 +61,6 @@ namespace ReproductorMusical.Properties {
         }
         
         /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap DTmF {
-            get {
-                object obj = ResourceManager.GetObject("DTmF", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
         /// </summary>
         public static System.Drawing.Icon IconoReproductor {
@@ -86,16 +76,6 @@ namespace ReproductorMusical.Properties {
         public static System.Drawing.Bitmap NoPortada {
             get {
                 object obj = ResourceManager.GetObject("NoPortada", resourceCulture);
-                return ((System.Drawing.Bitmap)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
-        /// </summary>
-        public static System.Drawing.Bitmap OMAKASE {
-            get {
-                object obj = ResourceManager.GetObject("OMAKASE", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
