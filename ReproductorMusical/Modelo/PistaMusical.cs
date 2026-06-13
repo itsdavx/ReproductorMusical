@@ -10,7 +10,6 @@ namespace ReproductorMusical.Modelo
         public string NombreArchivo { get; private set; }
         public TimeSpan Duracion { get; set; }
 
-        // Constructor principal
         public PistaMusical(string rutaCompleta)
         {
             RutaCompleta = rutaCompleta;

@@ -7,44 +7,49 @@ using ReproductorMusical.Modelo;
 
 namespace ReproductorMusical.Controlador
 {
-    // Orquesta el Modelo y la Vista; contiene el Timer de animación
     public class ReproductorControlador
     {
         // DEPENDENCIAS
         private readonly ReproductorModelo modelo;
         public Action OnStopReproduccion;
-        public int ModoReproduccion { get; set; } = 1; // por defecto secuencial
-
+        public int ModoReproduccion { get; set; } = 1;
 
         // ESTADO INTERNO
         private List<PistaMusical> listaPistas = new List<PistaMusical>();
         private int indicePistaActual = -1;
         private Dictionary<string, IEfectoVisual> efectos = new Dictionary<string, IEfectoVisual>();
         private IEfectoVisual efectoActual;
-        private Timer timerFPS;
+        private System.Windows.Forms.Timer timerFPS;
         private Random rand = new Random();
+
+        // FLAG: true mientras Play() está ejecutándose, para que el timer
+        // no detecte un "fin de pista" falso durante el cambio de canción
+        private bool cambiandoPista = false;
 
         // BUFFER DE AUDIO SIMULADO
         private const int FFT_LENGTH = 128;
         private float[] bufferMuestras = new float[FFT_LENGTH];
 
-        // CALLBACKS HACIA LA VISTA (evita acoplamiento directo)
-        public Action<string> OnTiempoActualizado;      // "mm:ss" del tiempo actual
-        public Action<string> OnDuracionActualizada;    // "mm:ss" de la duración total
-        public Action<int> OnProgresoActualizado;       // valor 0-100 para el ProgressBar
-        public Action OnRedibujarGrafico;               // pide Invalidate() al panel
-        public Action<string> OnErrorReproduccion;      // muestra errores al usuario
+        // CALLBACKS HACIA LA VISTA
+        public Action<string> OnTiempoActualizado;
+        public Action<string> OnDuracionActualizada;
+        public Action<int> OnProgresoActualizado;
+        public Action OnRedibujarGrafico;
+        public Action<string> OnErrorReproduccion;
+        public Action OnSincronizarLista;   // nuevo: avisa a la vista que sincronice el ListBox
 
-        // COLOR DE FONDO DEL PANEL DE VISUALIZACION (depende del tema)
-        public Color ColorFondoGrafico = Color.FromArgb(20,20,20);
+        // COLOR DE FONDO DEL PANEL
+        public Color ColorFondoGrafico = Color.FromArgb(20, 20, 20);
 
         public ReproductorControlador(ReproductorModelo modelo)
         {
             this.modelo = modelo;
             RegistrarEfectos();
+            // Sin suscripción a OnTrackFinished — el timer lo maneja todo
         }
 
-        // Registra cada efecto en el diccionario con su nombre como clave
+        // REGISTRO DE EFECTOS
+
         private void RegistrarEfectos()
         {
             AgregarEfecto(new EfectoBarrasVerticales());
@@ -56,7 +61,6 @@ namespace ReproductorMusical.Controlador
             AgregarEfecto(new EfectoParticulas());
             AgregarEfecto(new EfectoAnillosConcentricos());
 
-            // Efecto por defecto
             efectoActual = new EfectoBarrasVerticales();
         }
 
@@ -65,7 +69,8 @@ namespace ReproductorMusical.Controlador
             efectos[efecto.Nombre] = efecto;
         }
 
-        // Devuelve la lista de nombres para llenar el ComboBox
+        // CONSULTAS PARA LA VISTA
+
         public List<string> ObtenerNombresEfectos()
         {
             List<string> nombres = new List<string>();
@@ -74,21 +79,21 @@ namespace ReproductorMusical.Controlador
             return nombres;
         }
 
-        // Cambia el efecto activo según el nombre recibido desde el ComboBox
         public void CambiarEfecto(string nombre)
         {
             if (efectos.ContainsKey(nombre))
                 efectoActual = efectos[nombre];
         }
 
-        // Agrega una o más rutas a la lista interna de pistas
         public void AgregarPistas(string[] rutas)
         {
+            listaPistas.Clear();
+            indicePistaActual = -1;
+
             foreach (string ruta in rutas)
                 listaPistas.Add(new PistaMusical(ruta));
         }
 
-        // Devuelve los nombres de archivo para poblar el ListBox
         public List<string> ObtenerNombresPistas()
         {
             List<string> nombres = new List<string>();
@@ -97,13 +102,13 @@ namespace ReproductorMusical.Controlador
             return nombres;
         }
 
-        // Inicia o reanuda la reproducción del índice indicado
+        // REPRODUCCIÓN
+
         public void Play(int indicePista)
         {
             if (indicePista < 0 || indicePista >= listaPistas.Count)
                 return;
 
-            // Si está pausada la misma pista, solo reanudar
             if (modelo.EstaPausado && indicePista == indicePistaActual)
             {
                 modelo.Reanudar();
@@ -111,15 +116,22 @@ namespace ReproductorMusical.Controlador
                 return;
             }
 
+            // Bloquea el timer para que no detecte fin falso durante el cambio
+            cambiandoPista = true;
+
             try
             {
                 indicePistaActual = indicePista;
                 modelo.Reproducir(listaPistas[indicePista].RutaCompleta);
 
-                // Actualiza la duración total en la vista
                 listaPistas[indicePista].Duracion = modelo.DuracionTotal;
+
                 if (OnDuracionActualizada != null)
                     OnDuracionActualizada(modelo.DuracionTotal.ToString(@"mm\:ss"));
+
+                // Sincroniza el ListBox desde aquí, no desde la vista
+                if (OnSincronizarLista != null)
+                    OnSincronizarLista();
 
                 IniciarTimer();
             }
@@ -127,6 +139,11 @@ namespace ReproductorMusical.Controlador
             {
                 if (OnErrorReproduccion != null)
                     OnErrorReproduccion(ex.Message);
+            }
+            finally
+            {
+                // Libera el bloqueo siempre, incluso si hubo excepción
+                cambiandoPista = false;
             }
         }
 
@@ -145,7 +162,6 @@ namespace ReproductorMusical.Controlador
             if (OnDuracionActualizada != null) OnDuracionActualizada("00:00");
             if (OnProgresoActualizado != null) OnProgresoActualizado(0);
             if (OnRedibujarGrafico != null) OnRedibujarGrafico();
-
             if (OnStopReproduccion != null) OnStopReproduccion();
         }
 
@@ -155,20 +171,15 @@ namespace ReproductorMusical.Controlador
 
             switch (ModoReproduccion)
             {
-                case 0: // 🔀 Aleatorio
-                    int aleatorio = rand.Next(listaPistas.Count);
-                    Play(aleatorio);
+                case 0: // Aleatorio
+                    Play(rand.Next(listaPistas.Count));
                     break;
-
-                case 1: // ⇉ Secuencial
-                    if (indicePistaActual < listaPistas.Count - 1)
-                        Play(indicePistaActual + 1);
-                    else
-                        Play(0); // vuelve al inicio
+                case 1: // Secuencial
+                    Play(indicePistaActual < listaPistas.Count - 1
+                        ? indicePistaActual + 1 : 0);
                     break;
-
-                case 2: // 🔂 Repetir 1
-                    Play(indicePistaActual); // misma pista
+                case 2: // Repetir 1
+                    Play(indicePistaActual);
                     break;
             }
         }
@@ -179,33 +190,25 @@ namespace ReproductorMusical.Controlador
 
             switch (ModoReproduccion)
             {
-                case 0: // 🔀 Aleatorio
-                    int aleatorio = rand.Next(listaPistas.Count);
-                    Play(aleatorio);
+                case 0: // Aleatorio
+                    Play(rand.Next(listaPistas.Count));
                     break;
-
-                case 1: // ⇉ Secuencial
-                    if (indicePistaActual > 0)
-                        Play(indicePistaActual - 1);
-                    else
-                        Play(listaPistas.Count - 1); // vuelve al final
+                case 1: // Secuencial
+                    Play(indicePistaActual > 0
+                        ? indicePistaActual - 1 : listaPistas.Count - 1);
                     break;
-
-                case 2: // 🔂 Repetir 1
-                    Play(indicePistaActual); // misma pista
+                case 2: // Repetir 1
+                    Play(indicePistaActual);
                     break;
             }
         }
 
-
-        // Ajusta el volumen; valor entre 0 y 100 (desde el TrackBar)
         public void CambiarVolumen(int valorTrackBar, int maximoTrackBar)
         {
             float volNormalizado = (float)valorTrackBar / maximoTrackBar;
             modelo.CambiarVolumen(volNormalizado);
         }
 
-        // Salta a una posición según el clic en el ProgressBar
         public void CambiarPosicion(int clickX, int anchoPBar)
         {
             if (!modelo.EstaReproduciendo && !modelo.EstaPausado) return;
@@ -216,23 +219,19 @@ namespace ReproductorMusical.Controlador
 
             if (OnProgresoActualizado != null)
                 OnProgresoActualizado((int)(porcentaje * 100));
-
             if (OnTiempoActualizado != null)
                 OnTiempoActualizado(modelo.TiempoActual.ToString(@"mm\:ss"));
         }
 
-        // Renderiza el efecto activo sobre el Graphics del panel
+        // RENDERIZADO
+
         public void RenderizarEfecto(Graphics g, int ancho, int alto)
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(ColorFondoGrafico);
 
             if (!modelo.EstaReproduciendo && !modelo.EstaPausado)
-            {
-
-
                 return;
-            }
 
             ActualizarBuffer();
 
@@ -240,15 +239,14 @@ namespace ReproductorMusical.Controlador
                 efectoActual.Renderizar(g, ancho, alto, bufferMuestras);
         }
 
-        // Devuelve el índice actual para sincronizar el ListBox desde la vista
         public int IndicePistaActual => indicePistaActual;
 
-        // PRIVADOS DE APOYO
+        // TIMER — corre 100% en el hilo UI, sin hilos secundarios
 
         private void IniciarTimer()
         {
             DetenerTimer();
-            timerFPS = new Timer();
+            timerFPS = new System.Windows.Forms.Timer();
             timerFPS.Interval = 16; // ~60 FPS
             timerFPS.Tick += TimerTick;
             timerFPS.Start();
@@ -266,16 +264,33 @@ namespace ReproductorMusical.Controlador
 
         private void TimerTick(object sender, EventArgs e)
         {
-            if (!modelo.EstaReproduciendo) return;
+            // Ignorar ticks durante cambio de pista
+            if (cambiandoPista) return;
 
-            double posicion = modelo.TiempoActual.TotalSeconds;
-            double duracion = modelo.DuracionTotal.TotalSeconds;
+            // DETECCIÓN DE FIN DE PISTA por polling:
+            // Si había una pista activa y NAudio ya no está reproduciendo ni pausado,
+            // significa que la pista terminó naturalmente.
+            if (indicePistaActual >= 0
+                && !modelo.EstaReproduciendo
+                && !modelo.EstaPausado)
+            {
+                // Avanza a la siguiente según el modo — todo en hilo UI, sin eventos cruzados
+                Next();
+                return;
+            }
 
-            if (OnTiempoActualizado != null)
-                OnTiempoActualizado(modelo.TiempoActual.ToString(@"mm\:ss"));
+            // Actualizar UI normalmente
+            if (modelo.EstaReproduciendo)
+            {
+                double posicion = modelo.TiempoActual.TotalSeconds;
+                double duracion = modelo.DuracionTotal.TotalSeconds;
 
-            if (duracion > 0 && OnProgresoActualizado != null)
-                OnProgresoActualizado((int)((posicion / duracion) * 100));
+                if (OnTiempoActualizado != null)
+                    OnTiempoActualizado(modelo.TiempoActual.ToString(@"mm\:ss"));
+
+                if (duracion > 0 && OnProgresoActualizado != null)
+                    OnProgresoActualizado((int)((posicion / duracion) * 100));
+            }
 
             if (OnRedibujarGrafico != null)
                 OnRedibujarGrafico();
@@ -298,6 +313,5 @@ namespace ReproductorMusical.Controlador
                 );
             }
         }
-
     }
 }

@@ -47,8 +47,8 @@
             this.lblMuSync = new System.Windows.Forms.Label();
             this.track_list = new System.Windows.Forms.ListBox();
             this.btnTema = new System.Windows.Forms.Button();
-            this.pnlCancionImagen = new System.Windows.Forms.Panel();
             this.btnModo = new System.Windows.Forms.Button();
+            this.pnlCancionImagen = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -58,7 +58,7 @@
             this.btn_preview.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_preview.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_preview.ForeColor = System.Drawing.Color.White;
-            this.btn_preview.Location = new System.Drawing.Point(260, 596);
+            this.btn_preview.Location = new System.Drawing.Point(261, 647);
             this.btn_preview.Name = "btn_preview";
             this.btn_preview.Size = new System.Drawing.Size(75, 50);
             this.btn_preview.TabIndex = 0;
@@ -72,7 +72,7 @@
             this.btn_next.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_next.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_next.ForeColor = System.Drawing.Color.White;
-            this.btn_next.Location = new System.Drawing.Point(678, 597);
+            this.btn_next.Location = new System.Drawing.Point(679, 648);
             this.btn_next.Name = "btn_next";
             this.btn_next.Size = new System.Drawing.Size(75, 50);
             this.btn_next.TabIndex = 1;
@@ -86,7 +86,7 @@
             this.btnPlayPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlayPause.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlayPause.ForeColor = System.Drawing.Color.White;
-            this.btnPlayPause.Location = new System.Drawing.Point(468, 566);
+            this.btnPlayPause.Location = new System.Drawing.Point(469, 617);
             this.btnPlayPause.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlayPause.Name = "btnPlayPause";
             this.btnPlayPause.Size = new System.Drawing.Size(80, 80);
@@ -102,7 +102,7 @@
             this.btn_stop.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_stop.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_stop.ForeColor = System.Drawing.Color.White;
-            this.btn_stop.Location = new System.Drawing.Point(356, 599);
+            this.btn_stop.Location = new System.Drawing.Point(357, 650);
             this.btn_stop.Name = "btn_stop";
             this.btn_stop.Size = new System.Drawing.Size(75, 50);
             this.btn_stop.TabIndex = 4;
@@ -116,7 +116,7 @@
             this.btn_open.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_open.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_open.ForeColor = System.Drawing.Color.White;
-            this.btn_open.Location = new System.Drawing.Point(78, 596);
+            this.btn_open.Location = new System.Drawing.Point(79, 647);
             this.btn_open.Name = "btn_open";
             this.btn_open.Size = new System.Drawing.Size(75, 50);
             this.btn_open.TabIndex = 5;
@@ -126,7 +126,7 @@
             // 
             // p_bar
             // 
-            this.p_bar.Location = new System.Drawing.Point(84, 668);
+            this.p_bar.Location = new System.Drawing.Point(85, 719);
             this.p_bar.Name = "p_bar";
             this.p_bar.Size = new System.Drawing.Size(884, 10);
             this.p_bar.TabIndex = 6;
@@ -137,7 +137,7 @@
             this.track_volume.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.track_volume.Cursor = System.Windows.Forms.Cursors.Hand;
             this.track_volume.LargeChange = 1;
-            this.track_volume.Location = new System.Drawing.Point(857, 617);
+            this.track_volume.Location = new System.Drawing.Point(858, 668);
             this.track_volume.Maximum = 100;
             this.track_volume.Name = "track_volume";
             this.track_volume.Size = new System.Drawing.Size(95, 45);
@@ -152,7 +152,7 @@
             this.lvl_volumen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(30)))), ((int)(((byte)(30)))), ((int)(((byte)(30)))));
             this.lvl_volumen.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lvl_volumen.ForeColor = System.Drawing.Color.White;
-            this.lvl_volumen.Location = new System.Drawing.Point(947, 620);
+            this.lvl_volumen.Location = new System.Drawing.Point(948, 671);
             this.lvl_volumen.Name = "lvl_volumen";
             this.lvl_volumen.Size = new System.Drawing.Size(37, 13);
             this.lvl_volumen.TabIndex = 11;
@@ -164,7 +164,7 @@
             this.lbl_track_start.AutoSize = true;
             this.lbl_track_start.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_track_start.ForeColor = System.Drawing.Color.White;
-            this.lbl_track_start.Location = new System.Drawing.Point(33, 662);
+            this.lbl_track_start.Location = new System.Drawing.Point(34, 713);
             this.lbl_track_start.Name = "lbl_track_start";
             this.lbl_track_start.Size = new System.Drawing.Size(45, 19);
             this.lbl_track_start.TabIndex = 12;
@@ -176,7 +176,7 @@
             this.lbl_track_end.AutoSize = true;
             this.lbl_track_end.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbl_track_end.ForeColor = System.Drawing.Color.White;
-            this.lbl_track_end.Location = new System.Drawing.Point(974, 662);
+            this.lbl_track_end.Location = new System.Drawing.Point(975, 713);
             this.lbl_track_end.Name = "lbl_track_end";
             this.lbl_track_end.Size = new System.Drawing.Size(45, 19);
             this.lbl_track_end.TabIndex = 13;
@@ -186,9 +186,9 @@
             // pnl_grafico
             // 
             this.pnl_grafico.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.pnl_grafico.Location = new System.Drawing.Point(354, 114);
+            this.pnl_grafico.Location = new System.Drawing.Point(356, 96);
             this.pnl_grafico.Name = "pnl_grafico";
-            this.pnl_grafico.Size = new System.Drawing.Size(665, 288);
+            this.pnl_grafico.Size = new System.Drawing.Size(665, 344);
             this.pnl_grafico.TabIndex = 14;
             this.pnl_grafico.Paint += new System.Windows.Forms.PaintEventHandler(this.pnl_grafico_Paint);
             // 
@@ -197,7 +197,7 @@
             this.lblVolume.AutoSize = true;
             this.lblVolume.Font = new System.Drawing.Font("Segoe UI Symbol", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVolume.ForeColor = System.Drawing.Color.White;
-            this.lblVolume.Location = new System.Drawing.Point(834, 617);
+            this.lblVolume.Location = new System.Drawing.Point(835, 668);
             this.lblVolume.Name = "lblVolume";
             this.lblVolume.Size = new System.Drawing.Size(27, 21);
             this.lblVolume.TabIndex = 13;
@@ -209,7 +209,7 @@
             this.cmbEfectosMusicales.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.cmbEfectosMusicales.ForeColor = System.Drawing.Color.White;
             this.cmbEfectosMusicales.FormattingEnabled = true;
-            this.cmbEfectosMusicales.Location = new System.Drawing.Point(118, 374);
+            this.cmbEfectosMusicales.Location = new System.Drawing.Point(119, 412);
             this.cmbEfectosMusicales.Name = "cmbEfectosMusicales";
             this.cmbEfectosMusicales.Size = new System.Drawing.Size(204, 28);
             this.cmbEfectosMusicales.TabIndex = 16;
@@ -220,7 +220,7 @@
             this.lblMusicalEffects.AutoSize = true;
             this.lblMusicalEffects.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMusicalEffects.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(176)))), ((int)(((byte)(176)))), ((int)(((byte)(176)))));
-            this.lblMusicalEffects.Location = new System.Drawing.Point(45, 377);
+            this.lblMusicalEffects.Location = new System.Drawing.Point(46, 415);
             this.lblMusicalEffects.Name = "lblMusicalEffects";
             this.lblMusicalEffects.Size = new System.Drawing.Size(67, 20);
             this.lblMusicalEffects.TabIndex = 17;
@@ -236,7 +236,7 @@
             this.lblMuSync.AutoSize = true;
             this.lblMuSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMuSync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.lblMuSync.Location = new System.Drawing.Point(441, 24);
+            this.lblMuSync.Location = new System.Drawing.Point(450, 24);
             this.lblMuSync.Name = "lblMuSync";
             this.lblMuSync.Size = new System.Drawing.Size(160, 42);
             this.lblMuSync.TabIndex = 18;
@@ -250,7 +250,7 @@
             this.track_list.ForeColor = System.Drawing.Color.White;
             this.track_list.FormattingEnabled = true;
             this.track_list.ItemHeight = 22;
-            this.track_list.Location = new System.Drawing.Point(37, 428);
+            this.track_list.Location = new System.Drawing.Point(38, 479);
             this.track_list.Name = "track_list";
             this.track_list.Size = new System.Drawing.Size(983, 110);
             this.track_list.TabIndex = 7;
@@ -270,21 +270,13 @@
             this.btnTema.UseVisualStyleBackColor = true;
             this.btnTema.Click += new System.EventHandler(this.btnTema_Click);
             // 
-            // pnlCancionImagen
-            // 
-            this.pnlCancionImagen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
-            this.pnlCancionImagen.Location = new System.Drawing.Point(49, 114);
-            this.pnlCancionImagen.Name = "pnlCancionImagen";
-            this.pnlCancionImagen.Size = new System.Drawing.Size(273, 247);
-            this.pnlCancionImagen.TabIndex = 0;
-            // 
             // btnModo
             // 
             this.btnModo.FlatAppearance.BorderSize = 0;
             this.btnModo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnModo.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnModo.ForeColor = System.Drawing.Color.White;
-            this.btnModo.Location = new System.Drawing.Point(582, 599);
+            this.btnModo.Location = new System.Drawing.Point(583, 650);
             this.btnModo.Name = "btnModo";
             this.btnModo.Size = new System.Drawing.Size(75, 50);
             this.btnModo.TabIndex = 20;
@@ -292,12 +284,21 @@
             this.btnModo.UseVisualStyleBackColor = true;
             this.btnModo.Click += new System.EventHandler(this.btnModo_Click);
             // 
+            // pnlCancionImagen
+            // 
+            this.pnlCancionImagen.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.pnlCancionImagen.BackgroundImage = global::ReproductorMusical.Properties.Resources.NoPortada;
+            this.pnlCancionImagen.Location = new System.Drawing.Point(36, 96);
+            this.pnlCancionImagen.Name = "pnlCancionImagen";
+            this.pnlCancionImagen.Size = new System.Drawing.Size(300, 300);
+            this.pnlCancionImagen.TabIndex = 0;
+            // 
             // FrmReproductorMusical
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
-            this.ClientSize = new System.Drawing.Size(1046, 736);
+            this.ClientSize = new System.Drawing.Size(1046, 792);
             this.Controls.Add(this.btnModo);
             this.Controls.Add(this.pnlCancionImagen);
             this.Controls.Add(this.btnTema);
@@ -321,7 +322,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Name = "FrmReproductorMusical";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MuSync";
+            this.Text = "0\'";
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
