@@ -11,6 +11,10 @@ namespace ReproductorMusical.Modelo
         private VolumeSampleProvider volumeProvider;
         private IWavePlayer outputDevice;
 
+        // VOLUMEN PERSISTENTE: se mantiene entre cambios de pista
+        // Inicia en 1.0f pero se actualiza cada vez que el usuario mueve el TrackBar
+        private float volumenActual = 1.0f;
+
         // PROPIEDADES DE CONSULTA
         public bool EstaReproduciendo =>
             outputDevice != null && outputDevice.PlaybackState == PlaybackState.Playing;
@@ -20,13 +24,13 @@ namespace ReproductorMusical.Modelo
             waveStream != null ? waveStream.CurrentTime : TimeSpan.Zero;
         public TimeSpan DuracionTotal =>
             waveStream != null ? waveStream.TotalTime : TimeSpan.Zero;
-        public float Volumen =>
-            volumeProvider != null ? volumeProvider.Volume : 1f;
+
+        // Devuelve el volumen persistente, no el del provider (que puede ser null)
+        public float Volumen => volumenActual;
 
         // Reproduce una pista desde su ruta en disco
         public void Reproducir(string rutaCompleta)
         {
-            // Detiene limpiamente cualquier reproducción anterior
             Detener();
 
             if (rutaCompleta.ToLower().EndsWith(".mp3"))
@@ -39,11 +43,12 @@ namespace ReproductorMusical.Modelo
             ISampleProvider sampleProvider = waveStream.ToSampleProvider();
             volumeProvider = new VolumeSampleProvider(sampleProvider);
 
+            // Aplica el volumen que el usuario tenía antes de cambiar de pista
+            volumeProvider.Volume = volumenActual;
+
             outputDevice = new WaveOutEvent();
             outputDevice.Init(volumeProvider);
             outputDevice.Play();
-
-            // SIN PlaybackStopped — el controlador detecta fin por polling en el timer
         }
 
         public void Reanudar()
@@ -58,7 +63,6 @@ namespace ReproductorMusical.Modelo
                 outputDevice.Pause();
         }
 
-        // Detiene y libera todos los recursos NAudio limpiamente
         public void Detener()
         {
             if (outputDevice != null)
@@ -73,12 +77,16 @@ namespace ReproductorMusical.Modelo
                 waveStream = null;
             }
             volumeProvider = null;
+            // volumenActual NO se toca aquí — debe persistir entre pistas
         }
 
+        // Guarda el volumen en volumenActual Y lo aplica al provider si existe
         public void CambiarVolumen(float valor)
         {
+            volumenActual = Math.Max(0f, Math.Min(1f, valor));
+
             if (volumeProvider != null)
-                volumeProvider.Volume = Math.Max(0f, Math.Min(1f, valor));
+                volumeProvider.Volume = volumenActual;
         }
 
         public void CambiarPosicion(double segundos)
