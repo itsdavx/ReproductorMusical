@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FrmReproductorMusical));
             this.btn_preview = new System.Windows.Forms.Button();
             this.btn_next = new System.Windows.Forms.Button();
             this.btnPlayPause = new System.Windows.Forms.Button();
@@ -295,9 +296,9 @@
             // 
             // FrmReproductorMusical
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
+            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1046, 792);
             this.Controls.Add(this.btnModo);
             this.Controls.Add(this.pnlCancionImagen);
@@ -318,11 +319,13 @@
             this.Controls.Add(this.lblMusicalEffects);
             this.Controls.Add(this.cmbEfectosMusicales);
             this.Controls.Add(this.pnl_grafico);
-            this.ForeColor = System.Drawing.Color.Coral;
+            this.ForeColor = System.Drawing.Color.White;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FrmReproductorMusical";
+            this.Opacity = 0.9D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "0\'";
+            this.Text = "MuSync";
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
