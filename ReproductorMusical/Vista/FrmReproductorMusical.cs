@@ -228,7 +228,6 @@ namespace ReproductorMusical
 
 
         // ── Eventos de botones ───────────────────────────────────────────
-
         private void btn_open_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -238,14 +237,14 @@ namespace ReproductorMusical
 
                 if (ofd.ShowDialog() != DialogResult.OK) return;
 
-                _controlador.ReemplazarPistas(ofd.FileNames);
+                _controlador.AgregarPistas(ofd.FileNames);     // ← acumula al final
 
-                // Limpiamos y repoblamos — el DrawItem leerá los datos frescos
-                track_list.Items.Clear();
-                foreach (string nombre in _controlador.ObtenerNombresPistas())
-                    track_list.Items.Add(nombre);
+                // No limpiamos — solo añadimos los nombres nuevos al ListBox
+                foreach (string nombre in ofd.FileNames)
+                    track_list.Items.Add(System.IO.Path.GetFileName(nombre));
 
-                if (track_list.Items.Count > 0)
+                // Si era la primera carga, seleccionar la primera pista
+                if (track_list.SelectedIndex == -1 && track_list.Items.Count > 0)
                     track_list.SelectedIndex = 0;
             }
         }
