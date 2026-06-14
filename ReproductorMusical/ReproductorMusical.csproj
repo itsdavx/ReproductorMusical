@@ -131,6 +131,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Vista\FrmMensaje.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Vista\FrmMensaje.Designer.cs">
+      <DependentUpon>FrmMensaje.cs</DependentUpon>
+    </Compile>
     <Compile Include="Vista\FrmReproductorMusical.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -141,6 +147,9 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Vista\FrmMensaje.resx">
+      <DependentUpon>FrmMensaje.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Vista\FrmReproductorMusical.resx">
       <DependentUpon>FrmReproductorMusical.cs</DependentUpon>

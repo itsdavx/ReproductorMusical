@@ -1,5 +1,6 @@
 ﻿using ReproductorMusical.Controlador;
 using ReproductorMusical.Modelo;
+using ReproductorMusical.Vista;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -253,7 +254,8 @@ namespace ReproductorMusical
         {
             if (track_list.SelectedIndex == -1)
             {
-                MessageBox.Show("Por favor, selecciona una canción de la lista.");
+                using (FrmMensaje dlg = new FrmMensaje(_temaOscuro))
+                    dlg.ShowDialog(this);
                 return;
             }
 
