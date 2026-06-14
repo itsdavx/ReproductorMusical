@@ -2,6 +2,7 @@
 using ReproductorMusical.Modelo;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Windows.Forms;
@@ -29,7 +30,30 @@ namespace ReproductorMusical
         // ── Constructor ──────────────────────────────────────────────────
         public FrmReproductorMusical()
         {
-            InitializeComponent();
+            // C#
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("InitializeComponent falló: " + ex);
+                MessageBox.Show("InitializeComponent falló: " + ex.Message);
+                throw;
+            }
+
+
+            try
+            {
+                var bmp = Properties.Resources.NoPortada;
+                if (bmp != null)
+                    pnlCancionImagen.BackgroundImage = (Image)bmp.Clone();
+            }
+            catch (ArgumentException ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Imagen NoPortada inválida: " + ex.Message);
+                pnlCancionImagen.BackgroundImage = null;
+            }
 
             ReproductorModelo modelo = new ReproductorModelo();
             _controlador = new ReproductorControlador(modelo);
@@ -458,16 +482,22 @@ namespace ReproductorMusical
             ActualizarIconos();
             track_list.Invalidate();
         }
-
         private void ActualizarIconos()
         {
-            btnPlayPause.Image = _reproduciendo
-                ? (_temaOscuro
-                    ? Properties.Resources.PauseOscuro
-                    : Properties.Resources.PauseClaro)
-                : (_temaOscuro
-                    ? Properties.Resources.PlayOscuro
-                    : Properties.Resources.PlayClaro);
+            try
+            {
+                Image img = _reproduciendo
+                    ? (_temaOscuro ? Properties.Resources.PauseOscuro : Properties.Resources.PauseClaro)
+                    : (_temaOscuro ? Properties.Resources.PlayOscuro : Properties.Resources.PlayClaro);
+
+                btnPlayPause.Image = img != null ? (Image)img.Clone() : null;
+            }
+            catch (ArgumentException ex)
+            {
+                // Fallback seguro: sin imagen y log para depuración
+                btnPlayPause.Image = null;
+                System.Diagnostics.Debug.WriteLine("Imagen de recurso inválida: " + ex.Message);
+            }
         }
 
         private void CambiarImagenAlbum(Image portada)
@@ -476,17 +506,20 @@ namespace ReproductorMusical
             {
                 Image anterior = pnlCancionImagen.BackgroundImage;
                 pnlCancionImagen.BackgroundImage = null;
-                anterior.Dispose();
+                anterior.Dispose(); // ahora es seguro porque asignaremos clones de Resources
             }
 
+            // ✅ FIX
             if (portada != null)
             {
-                pnlCancionImagen.BackgroundImage = portada;
+                pnlCancionImagen.BackgroundImage = new System.Drawing.Bitmap(portada);
                 pnlCancionImagen.BackgroundImageLayout = ImageLayout.Zoom;
             }
             else
             {
-                pnlCancionImagen.BackgroundImage = Properties.Resources.NoPortada;
+                // Asignar una copia para evitar disponer la instancia compartida del recurso
+                pnlCancionImagen.BackgroundImage = (Image)Properties.Resources.NoPortada.Clone();
+                pnlCancionImagen.BackgroundImageLayout = ImageLayout.Zoom;
             }
         }
 
@@ -494,58 +527,125 @@ namespace ReproductorMusical
 
         private void FrmReproductorMusical_Load(object sender, EventArgs e)
         {
-            RedondearControl(pnlCancionImagen, 50);
-            RedondearControl(pnl_grafico, 50);
-            RedondearControl(track_list, 20);
-            RedondearControl(p_bar, 5);
-            RedondearControl(btnModo, 50);
-            RedondearControl(btn_preview, 50);
-            RedondearControl(btn_next, 50);
-            RedondearControl(btnPlayPause, 90);
-            RedondearControl(btn_stop, 50);
-            RedondearControl(btn_open, 50);
-            RedondearControl(pnlBarraSuperior, 50);
-            RedondearControl(btnLimpiar, 20);
+            try
+            {
+                RedondearControl(pnlCancionImagen, 50);
+                RedondearControl(pnl_grafico, 50);
+                RedondearControl(track_list, 20);
+                RedondearControl(p_bar, 5);
+                RedondearControl(btnModo, 50);
+                RedondearControl(btn_preview, 50);
+                RedondearControl(btn_next, 50);
+                RedondearControl(btnPlayPause, 50);
+                RedondearControl(btn_stop, 50);
+                RedondearControl(btn_open, 50);
+                RedondearControl(pnlBarraSuperior, 50);
+                RedondearControl(btnLimpiar, 20);
 
-            RedondearControl(btnTema, 20);
-            RedondearControl(btnExit, 20);
-            RedondearControl(btnMinimizar, 20);
+                RedondearControl(btnTema, 20);
+                RedondearControl(btnExit, 20);
+                RedondearControl(btnMinimizar, 20);
 
-            RedondearFormulario(50); // puedes ajustar el radio a tu gusto
+                RedondearFormulario(50); // puedes ajustar el radio a tu gusto
 
-            btnTema.TextAlign = ContentAlignment.MiddleCenter;
-            btnModo.TextAlign = ContentAlignment.MiddleCenter;
-            btn_preview.TextAlign = ContentAlignment.MiddleCenter;
-            btn_next.TextAlign = ContentAlignment.MiddleCenter;
-            btn_stop.TextAlign = ContentAlignment.MiddleCenter;
-            btn_open.TextAlign = ContentAlignment.MiddleCenter;
+                btnTema.TextAlign = ContentAlignment.MiddleCenter;
+                btnModo.TextAlign = ContentAlignment.MiddleCenter;
+                btn_preview.TextAlign = ContentAlignment.MiddleCenter;
+                btn_next.TextAlign = ContentAlignment.MiddleCenter;
+                btn_stop.TextAlign = ContentAlignment.MiddleCenter;
+                btn_open.TextAlign = ContentAlignment.MiddleCenter;
 
-            ActualizarIconos();
+                ActualizarIconos();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error al redondear controles: " + ex);
+                MessageBox.Show("Error al redondear controles: " + ex.Message);
+            }
         }
 
         // ── Helper visual ────────────────────────────────────────────────
 
 
-        private void RedondearControl(Control control, int radio)
+        // C#
+private void RedondearControl(Control control, int radio)
+{
+    if (control == null) return;
+
+    try
+    {
+        if (control.Width > 0 && control.Height > 0 && radio > 0)
         {
-            GraphicsPath path = new GraphicsPath();
-            path.AddArc(0, 0, radio, radio, 180, 90);
-            path.AddArc(control.Width - radio, 0, radio, radio, 270, 90);
-            path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
-            path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
-            path.CloseFigure();
-            control.Region = new Region(path);
+            int maxRadio = Math.Min(control.Width, control.Height) / 2;
+            int r = Math.Max(0, Math.Min(radio, maxRadio));
+
+            if (r == 0)
+            {
+                control.Region = null;
+                return;
+            }
+
+            using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+            {
+                path.AddArc(0, 0, r, r, 180, 90);
+                path.AddArc(control.Width - r, 0, r, r, 270, 90);
+                path.AddArc(control.Width - r, control.Height - r, r, r, 0, 90);
+                path.AddArc(0, control.Height - r, r, r, 90, 90);
+                path.CloseFigure();
+
+                // Protegemos la asignación para capturar ArgumentException
+                try
+                {
+                    control.Region = new Region(path);
+                }
+                catch (ArgumentException exRegion)
+                {
+                    System.Diagnostics.Debug.WriteLine($"Error creando Region para {control.Name}: {exRegion.Message}");
+                    // Mantener la aplicación en funcionamiento sin asignar Region
+                    control.Region = null;
+                }
+            }
         }
+    }
+    catch (Exception ex)
+    {
+        System.Diagnostics.Debug.WriteLine($"Error en RedondearControl({control?.Name}): {ex}");
+    }
+}
 
         private void RedondearFormulario(int radio)
         {
-            GraphicsPath path = new GraphicsPath();
-            path.AddArc(0, 0, radio, radio, 180, 90);
-            path.AddArc(this.Width - radio, 0, radio, radio, 270, 90);
-            path.AddArc(this.Width - radio, this.Height - radio, radio, radio, 0, 90);
-            path.AddArc(0, this.Height - radio, radio, radio, 90, 90);
-            path.CloseFigure();
-            this.Region = new Region(path);
+            try
+            {
+                if (this.Width > 0 && this.Height > 0 && radio > 0)
+                {
+                    {
+                        int maxRadio = Math.Min(this.Width, this.Height) / 2;
+                        int r = Math.Max(0, Math.Min(radio, maxRadio));
+
+                        if (r == 0)
+                        {
+                            this.Region = null;
+                            return;
+                        }
+                        Debug.WriteLine($"{this.Name} -> W:{this.Width}, H:{this.Height}");
+
+                        using (var path = new System.Drawing.Drawing2D.GraphicsPath())
+                        {
+                            path.AddArc(0, 0, r, r, 180, 90);
+                            path.AddArc(this.Width - r, 0, r, r, 270, 90);
+                            path.AddArc(this.Width - r, this.Height - r, r, r, 0, 90);
+                            path.AddArc(0, this.Height - r, r, r, 90, 90);
+                            path.CloseFigure();
+                            this.Region = new Region(path);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error en RedondearControl({this?.Name}): {ex}");
+            }
         }
 
 
@@ -585,7 +685,7 @@ namespace ReproductorMusical
             ActualizarIconos();
 
             // Opcional: limpiar la imagen del álbum
-            pnlCancionImagen.BackgroundImage = Properties.Resources.NoPortada;
+            pnlCancionImagen.BackgroundImage = (Image)Properties.Resources.NoPortada.Clone();
         }
 
     }

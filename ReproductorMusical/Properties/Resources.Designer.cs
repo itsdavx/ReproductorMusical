@@ -61,16 +61,6 @@ namespace ReproductorMusical.Properties {
         }
         
         /// <summary>
-        ///   Busca un recurso adaptado de tipo System.Drawing.Icon similar a (Icono).
-        /// </summary>
-        public static System.Drawing.Icon IconoReproductor {
-            get {
-                object obj = ResourceManager.GetObject("IconoReproductor", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
         ///   Busca un recurso adaptado de tipo System.Drawing.Bitmap.
         /// </summary>
         public static System.Drawing.Bitmap NoPortada {

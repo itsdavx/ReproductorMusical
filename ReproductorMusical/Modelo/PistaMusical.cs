@@ -53,10 +53,13 @@ namespace ReproductorMusical.Modelo
                     if (tag.Tag.Pictures != null && tag.Tag.Pictures.Length > 0)
                     {
                         IPicture imagen = tag.Tag.Pictures[0];
-                        using (System.IO.MemoryStream ms =
-                            new System.IO.MemoryStream(imagen.Data.Data))
+                        // ✅ FIX — new Bitmap(...) copia los datos en memoria propia
+                        using (System.IO.MemoryStream ms = new System.IO.MemoryStream(imagen.Data.Data))
                         {
-                            Portada = System.Drawing.Image.FromStream(ms);
+                            using (System.Drawing.Image imgTemp = System.Drawing.Image.FromStream(ms))
+                            {
+                                Portada = new System.Drawing.Bitmap(imgTemp); // copia independiente del stream
+                            }
                         }
                     }
                 }
