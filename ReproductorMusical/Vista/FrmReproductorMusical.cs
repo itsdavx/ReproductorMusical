@@ -30,17 +30,6 @@ namespace ReproductorMusical
         public FrmReproductorMusical()
         {
             InitializeComponent();
-            cmbEfectosMusicales.Paint += (s, e) =>
-            {
-                using (SolidBrush brush = new SolidBrush(_colorFondoElementos))
-                {
-                    e.Graphics.FillRectangle(brush, cmbEfectosMusicales.ClientRectangle);
-                }
-                ControlPaint.DrawComboButton(e.Graphics,
-                    new Rectangle(cmbEfectosMusicales.Width - 20, 0, 20, cmbEfectosMusicales.Height),
-                    ButtonState.Normal);
-            };
-
 
             ReproductorModelo modelo = new ReproductorModelo();
             _controlador = new ReproductorControlador(modelo);
@@ -93,7 +82,6 @@ namespace ReproductorMusical
                 ControlStyles.UserPaint,
                 true
             );
-            this.Icon = Properties.Resources.IconoReproductor;
         }
 
         // ── Dibujado personalizado del ListBox ───────────────────────────
