@@ -7,312 +7,291 @@ using ReproductorMusical.Modelo;
 
 namespace ReproductorMusical.Controlador
 {
+    /// <summary>
+    /// Orquesta el modelo, el gestor de playlist y los efectos visuales.
+    /// Solo coordina: no sabe nada de controles WinForms ni de colores de UI.
+    /// </summary>
     public class ReproductorControlador
     {
-        // DEPENDENCIAS
-        private readonly ReproductorModelo modelo;
-        public Action OnStopReproduccion;
-        public int ModoReproduccion { get; set; } = 1;
-        public Action<System.Drawing.Image> OnAlbumCambiado;
+        // ── Dependencias ─────────────────────────────────────────────────
+        private readonly ReproductorModelo _modelo;
+        private readonly GestorPlaylist _playlist;
 
-        // ESTADO INTERNO
-        private List<PistaMusical> listaPistas = new List<PistaMusical>();
-        private int indicePistaActual = -1;
-        private Dictionary<string, IEfectoVisual> efectos = new Dictionary<string, IEfectoVisual>();
-        private IEfectoVisual efectoActual;
-        private System.Windows.Forms.Timer timerFPS;
-        private Random rand = new Random();
+        // ── Efectos visuales ─────────────────────────────────────────────
+        private readonly Dictionary<string, IEfectoVisual> _efectos
+            = new Dictionary<string, IEfectoVisual>();
+        private IEfectoVisual _efectoActual;
 
-        // FLAG: true mientras Play() está ejecutándose, para que el timer
-        // no detecte un "fin de pista" falso durante el cambio de canción
-        private bool cambiandoPista = false;
+        // ── Timer de animación (hilo UI, sin threads secundarios) ────────
+        private Timer _timerFPS;
 
-        // BUFFER DE AUDIO SIMULADO
+        // ── Buffer de audio simulado para la visualización ───────────────
         private const int FFT_LENGTH = 128;
-        private float[] bufferMuestras = new float[FFT_LENGTH];
+        private readonly float[] _bufferMuestras = new float[FFT_LENGTH];
+        private readonly Random _rand = new Random();
 
-        // CALLBACKS HACIA LA VISTA
-        public Action<string> OnTiempoActualizado;
-        public Action<string> OnDuracionActualizada;
-        public Action<int> OnProgresoActualizado;
-        public Action OnRedibujarGrafico;
-        public Action<string> OnErrorReproduccion;
-        public Action OnSincronizarLista;   // nuevo: avisa a la vista que sincronice el ListBox
+        // ── Flag que evita detección falsa de fin de pista ───────────────
+        private bool _cambiandoPista = false;
 
-        // COLOR DE FONDO DEL PANEL
-        public Color ColorFondoGrafico = Color.FromArgb(20, 20, 20);
+        // ── Estado de reproducción ───────────────────────────────────────
+        public ModoReproduccion ModoReproduccion { get; set; } = ModoReproduccion.Secuencial;
 
+        // ── Color de fondo del panel (cedido por la Vista vía propiedad) ─
+        // Se mantiene aquí únicamente para pasárselo al método de renderizado
+        // sin que la Vista tenga que pasarlo en cada Paint.
+        public Color ColorFondoGrafico { get; set; } = Color.FromArgb(20, 20, 20);
+
+        // ── Consulta pública del índice activo ───────────────────────────
+        public int IndicePistaActual => _playlist.IndicePistaActual;
+
+        // ── Eventos hacia la Vista ───────────────────────────────────────
+        // Usando 'event' para que solo este controlador pueda dispararlos.
+        public event Action<string> OnTiempoActualizado;
+        public event Action<string> OnDuracionActualizada;
+        public event Action<int> OnProgresoActualizado;
+        public event Action OnRedibujarGrafico;
+        public event Action<string> OnErrorReproduccion;
+        public event Action OnStopReproduccion;
+        public event Action OnSincronizarLista;
+        public event Action<Image> OnAlbumCambiado;
+
+        // ── Constructor ──────────────────────────────────────────────────
         public ReproductorControlador(ReproductorModelo modelo)
         {
-            this.modelo = modelo;
+            _modelo = modelo;
+            _playlist = new GestorPlaylist();
             RegistrarEfectos();
-            // Sin suscripción a OnTrackFinished — el timer lo maneja todo
         }
 
-        // REGISTRO DE EFECTOS
+        // ── Registro de efectos ──────────────────────────────────────────
 
         private void RegistrarEfectos()
         {
-            AgregarEfecto(new EfectoBarrasVerticales());
-            AgregarEfecto(new EfectoOsciloscopio());
-            AgregarEfecto(new EfectoEspectroCircular());
-            AgregarEfecto(new EfectoEcualizadorLED());
-            AgregarEfecto(new EfectoOndasDeSonido());
-            AgregarEfecto(new EfectoPicosDeFrecuencia());
-            AgregarEfecto(new EfectoParticulas());
-            AgregarEfecto(new EfectoAnillosConcentricos());
+            Registrar(new EfectoBarrasVerticales());
+            Registrar(new EfectoOsciloscopio());
+            Registrar(new EfectoEspectroCircular());
+            Registrar(new EfectoEcualizadorLED());
+            Registrar(new EfectoOndasDeSonido());
+            Registrar(new EfectoPicosDeFrecuencia());
+            Registrar(new EfectoParticulas());
+            Registrar(new EfectoAnillosConcentricos());
 
-            efectoActual = new EfectoBarrasVerticales();
+            _efectoActual = new EfectoBarrasVerticales();
         }
 
-        private void AgregarEfecto(IEfectoVisual efecto)
+        private void Registrar(IEfectoVisual efecto)
         {
-            efectos[efecto.Nombre] = efecto;
+            _efectos[efecto.Nombre] = efecto;
         }
 
-        // CONSULTAS PARA LA VISTA
+        // ── Consultas para la Vista ──────────────────────────────────────
 
         public List<string> ObtenerNombresEfectos()
         {
-            List<string> nombres = new List<string>();
-            foreach (string clave in efectos.Keys)
-                nombres.Add(clave);
-            return nombres;
-        }
-
-        public void CambiarEfecto(string nombre)
-        {
-            if (efectos.ContainsKey(nombre))
-                efectoActual = efectos[nombre];
-        }
-
-        public void AgregarPistas(string[] rutas)
-        {
-            listaPistas.Clear();
-            indicePistaActual = -1;
-
-            foreach (string ruta in rutas)
-                listaPistas.Add(new PistaMusical(ruta));
+            return new List<string>(_efectos.Keys);
         }
 
         public List<string> ObtenerNombresPistas()
         {
-            List<string> nombres = new List<string>();
-            foreach (PistaMusical p in listaPistas)
-                nombres.Add(p.NombreArchivo);
-            return nombres;
+            return _playlist.ObtenerNombresPistas();
         }
 
-        // REPRODUCCIÓN
+        /// <summary>
+        /// Expone la lista completa de pistas (solo lectura) para que la Vista
+        /// pueda leer Artista y Album al dibujar el ListBox con OwnerDraw.
+        /// </summary>
+        public IReadOnlyList<Modelo.PistaMusical> ObtenerTodasLasPistas()
+        {
+            return _playlist.ObtenerTodasLasPistas();
+        }
 
-        // En Play(), después de IniciarTimer() agregar:
+        // ── Gestión de la playlist ───────────────────────────────────────
+
+        /// <summary>
+        /// Agrega pistas nuevas a la lista. Si ya había pistas, se añaden al final.
+        /// Llama a LimpiarYAgregar si quieres reemplazar la lista completa.
+        /// </summary>
+        public void AgregarPistas(string[] rutas)
+        {
+            _playlist.AgregarPistas(rutas);
+        }
+
+        /// <summary>Reemplaza la lista completa con nuevas pistas.</summary>
+        public void ReemplazarPistas(string[] rutas)
+        {
+            _playlist.LimpiarPistas();
+            _playlist.AgregarPistas(rutas);
+        }
+
+        // ── Reproducción ─────────────────────────────────────────────────
+
         public void Play(int indicePista)
         {
-            if (indicePista < 0 || indicePista >= listaPistas.Count)
-                return;
+            if (!_playlist.SeleccionarPista(indicePista)) return;
 
-            if (modelo.EstaPausado && indicePista == indicePistaActual)
+            // Si es la misma pista pausada, solo reanudamos
+            if (_modelo.EstaPausado && indicePista == _playlist.IndicePistaActual
+                && _bufferMuestras != null)
             {
-                modelo.Reanudar();
+                _modelo.Reanudar();
                 IniciarTimer();
                 return;
             }
 
-            cambiandoPista = true;
+            _cambiandoPista = true;
 
             try
             {
-                indicePistaActual = indicePista;
-                modelo.Reproducir(listaPistas[indicePista].RutaCompleta);
+                PistaMusical pista = _playlist.PistaActual;
 
-                listaPistas[indicePista].Duracion = modelo.DuracionTotal;
+                _modelo.Reproducir(pista.RutaCompleta);
+                _playlist.ActualizarDuracionActual(_modelo.DuracionTotal);
 
-                if (OnDuracionActualizada != null)
-                    OnDuracionActualizada(modelo.DuracionTotal.ToString(@"mm\:ss"));
-
-                if (OnSincronizarLista != null)
-                    OnSincronizarLista();
-
-                // En Play(), reemplaza la línea de OnAlbumCambiado por esta:
-                if (OnAlbumCambiado != null)
-                    OnAlbumCambiado(listaPistas[indicePista].Portada);
+                OnDuracionActualizada?.Invoke(_modelo.DuracionTotal.ToString(@"mm\:ss"));
+                OnSincronizarLista?.Invoke();
+                OnAlbumCambiado?.Invoke(pista.Portada);
 
                 IniciarTimer();
             }
             catch (Exception ex)
             {
-                if (OnErrorReproduccion != null)
-                    OnErrorReproduccion(ex.Message);
+                OnErrorReproduccion?.Invoke(ex.Message);
             }
             finally
             {
-                cambiandoPista = false;
+                _cambiandoPista = false;
             }
         }
 
         public void Pause()
         {
-            modelo.Pausar();
+            _modelo.Pausar();
             DetenerTimer();
         }
 
         public void Stop()
         {
-            modelo.Detener();
+            _modelo.Detener();
             DetenerTimer();
 
-            if (OnTiempoActualizado != null) OnTiempoActualizado("00:00");
-            if (OnDuracionActualizada != null) OnDuracionActualizada("00:00");
-            if (OnProgresoActualizado != null) OnProgresoActualizado(0);
-            if (OnRedibujarGrafico != null) OnRedibujarGrafico();
-            if (OnStopReproduccion != null) OnStopReproduccion();
+            OnTiempoActualizado?.Invoke("00:00");
+            OnDuracionActualizada?.Invoke("00:00");
+            OnProgresoActualizado?.Invoke(0);
+            OnRedibujarGrafico?.Invoke();
+            OnStopReproduccion?.Invoke();
         }
 
         public void Next()
         {
-            if (listaPistas.Count == 0) return;
-
-            switch (ModoReproduccion)
-            {
-                case 0: // Aleatorio
-                    Play(rand.Next(listaPistas.Count));
-                    break;
-                case 1: // Secuencial
-                    Play(indicePistaActual < listaPistas.Count - 1
-                        ? indicePistaActual + 1 : 0);
-                    break;
-                case 2: // Repetir 1
-                    Play(indicePistaActual);
-                    break;
-            }
+            if (!_playlist.HayPistas) return;
+            Play(_playlist.CalcularSiguiente(ModoReproduccion));
         }
 
         public void Previous()
         {
-            if (listaPistas.Count == 0) return;
-
-            switch (ModoReproduccion)
-            {
-                case 0: // Aleatorio
-                    Play(rand.Next(listaPistas.Count));
-                    break;
-                case 1: // Secuencial
-                    Play(indicePistaActual > 0
-                        ? indicePistaActual - 1 : listaPistas.Count - 1);
-                    break;
-                case 2: // Repetir 1
-                    Play(indicePistaActual);
-                    break;
-            }
+            if (!_playlist.HayPistas) return;
+            Play(_playlist.CalcularAnterior(ModoReproduccion));
         }
 
         public void CambiarVolumen(int valorTrackBar, int maximoTrackBar)
         {
             float volNormalizado = (float)valorTrackBar / maximoTrackBar;
-            modelo.CambiarVolumen(volNormalizado);
+            _modelo.CambiarVolumen(volNormalizado);
         }
 
         public void CambiarPosicion(int clickX, int anchoPBar)
         {
-            if (!modelo.EstaReproduciendo && !modelo.EstaPausado) return;
+            if (!_modelo.EstaReproduciendo && !_modelo.EstaPausado) return;
 
             double porcentaje = (double)clickX / anchoPBar;
-            double nuevoSegundo = porcentaje * modelo.DuracionTotal.TotalSeconds;
-            modelo.CambiarPosicion(nuevoSegundo);
+            double nuevoSegundo = porcentaje * _modelo.DuracionTotal.TotalSeconds;
+            _modelo.CambiarPosicion(nuevoSegundo);
 
-            if (OnProgresoActualizado != null)
-                OnProgresoActualizado((int)(porcentaje * 100));
-            if (OnTiempoActualizado != null)
-                OnTiempoActualizado(modelo.TiempoActual.ToString(@"mm\:ss"));
+            OnProgresoActualizado?.Invoke((int)(porcentaje * 100));
+            OnTiempoActualizado?.Invoke(_modelo.TiempoActual.ToString(@"mm\:ss"));
         }
 
-        // RENDERIZADO
+        public void CambiarEfecto(string nombre)
+        {
+            if (_efectos.ContainsKey(nombre))
+                _efectoActual = _efectos[nombre];
+        }
+
+        // ── Renderizado ──────────────────────────────────────────────────
 
         public void RenderizarEfecto(Graphics g, int ancho, int alto)
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
             g.Clear(ColorFondoGrafico);
 
-            if (!modelo.EstaReproduciendo && !modelo.EstaPausado)
-                return;
+            if (!_modelo.EstaReproduciendo && !_modelo.EstaPausado) return;
 
             ActualizarBuffer();
-
-            if (efectoActual != null)
-                efectoActual.Renderizar(g, ancho, alto, bufferMuestras);
+            _efectoActual?.Renderizar(g, ancho, alto, _bufferMuestras);
         }
 
-        public int IndicePistaActual => indicePistaActual;
-
-        // TIMER — corre 100% en el hilo UI, sin hilos secundarios
+        // ── Timer ────────────────────────────────────────────────────────
 
         private void IniciarTimer()
         {
             DetenerTimer();
-            timerFPS = new System.Windows.Forms.Timer();
-            timerFPS.Interval = 16; // ~60 FPS
-            timerFPS.Tick += TimerTick;
-            timerFPS.Start();
+            _timerFPS = new Timer();
+            _timerFPS.Interval = 16; // ~60 FPS
+            _timerFPS.Tick += TimerTick;
+            _timerFPS.Start();
         }
 
         private void DetenerTimer()
         {
-            if (timerFPS != null)
-            {
-                timerFPS.Stop();
-                timerFPS.Dispose();
-                timerFPS = null;
-            }
+            if (_timerFPS == null) return;
+            _timerFPS.Stop();
+            _timerFPS.Dispose();
+            _timerFPS = null;
         }
 
         private void TimerTick(object sender, EventArgs e)
         {
-            // Ignorar ticks durante cambio de pista
-            if (cambiandoPista) return;
+            if (_cambiandoPista) return;
 
-            // DETECCIÓN DE FIN DE PISTA por polling:
-            // Si había una pista activa y NAudio ya no está reproduciendo ni pausado,
-            // significa que la pista terminó naturalmente.
-            if (indicePistaActual >= 0
-                && !modelo.EstaReproduciendo
-                && !modelo.EstaPausado)
+            // Detección de fin de pista por polling
+            if (_playlist.IndicePistaActual >= 0
+                && !_modelo.EstaReproduciendo
+                && !_modelo.EstaPausado)
             {
-                // Avanza a la siguiente según el modo — todo en hilo UI, sin eventos cruzados
                 Next();
                 return;
             }
 
-            // Actualizar UI normalmente
-            if (modelo.EstaReproduciendo)
+            if (_modelo.EstaReproduciendo)
             {
-                double posicion = modelo.TiempoActual.TotalSeconds;
-                double duracion = modelo.DuracionTotal.TotalSeconds;
+                double posicion = _modelo.TiempoActual.TotalSeconds;
+                double duracion = _modelo.DuracionTotal.TotalSeconds;
 
-                if (OnTiempoActualizado != null)
-                    OnTiempoActualizado(modelo.TiempoActual.ToString(@"mm\:ss"));
+                OnTiempoActualizado?.Invoke(_modelo.TiempoActual.ToString(@"mm\:ss"));
 
-                if (duracion > 0 && OnProgresoActualizado != null)
-                    OnProgresoActualizado((int)((posicion / duracion) * 100));
+                if (duracion > 0)
+                    OnProgresoActualizado?.Invoke((int)((posicion / duracion) * 100));
             }
 
-            if (OnRedibujarGrafico != null)
-                OnRedibujarGrafico();
+            OnRedibujarGrafico?.Invoke();
         }
+
+        // ── Buffer de visualización ──────────────────────────────────────
 
         private void ActualizarBuffer()
         {
-            float volumen = modelo.Volumen;
+            float volumen = _modelo.Volumen;
             if (volumen == 0f) volumen = 0.01f;
 
-            double tiempoFactor = modelo.TiempoActual.TotalMilliseconds * 0.05;
+            double tiempoFactor = _modelo.TiempoActual.TotalMilliseconds * 0.05;
 
             for (int i = 0; i < FFT_LENGTH; i++)
             {
-                bufferMuestras[i] = (float)(
+                _bufferMuestras[i] = (float)(
                     Math.Sin(i * 0.1 + tiempoFactor) *
                     Math.Cos(i * 0.05) *
                     volumen *
-                    rand.NextDouble()
+                    _rand.NextDouble()
                 );
             }
         }

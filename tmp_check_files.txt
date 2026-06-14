@@ -1,0 +1,11 @@
+List of suspected resource files:
+ReproductorMusical\Resources\ImgAlbum\NoPortada.jpg
+ReproductorMusical\Resources\ImgAlbum\default.jpg
+ReproductorMusical\Resources\ImgAlbum\IconoReproductor.ico
+
+Next steps:
+- Verify these files exist in project tree and are valid images
+- In Visual Studio, check properties: Build Action & Copy to Output Directory
+- If corrupted, replace with valid images
+
+(temporary file created by assistant for debugging steps)

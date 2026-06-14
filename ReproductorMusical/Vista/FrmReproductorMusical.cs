@@ -1,47 +1,80 @@
 ﻿using ReproductorMusical.Controlador;
 using ReproductorMusical.Modelo;
 using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Windows.Forms;
 
 namespace ReproductorMusical
 {
     public partial class FrmReproductorMusical : Form
     {
-        // DEPENDENCIAS MVC
-        private readonly ReproductorControlador controlador;
-        private bool temaOscuro = true;
-        private bool reproduciendo = false;
-        private int modoReproduccion = 0;
+        // ── Dependencia única con el Controlador ─────────────────────────
+        private readonly ReproductorControlador _controlador;
+
+        // ── Estado estricto de UI ────────────────────────────────────────
+        private bool _temaOscuro = true;
+        private bool _reproduciendo = false;
 
         // Bloquea SelectedIndexChanged cuando el cambio es programático
-        private bool sincronizandoLista = false;
+        private bool _sincronizandoLista = false;
 
+        // ── Colores activos del tema (se actualizan en AplicarTema) ─────
+        private Color _colorTexto = Color.FromArgb(234, 234, 234);
+        private Color _colorTextoSecundario = Color.FromArgb(176, 176, 176);
+        private Color _colorFondoElementos = Color.FromArgb(20, 20, 20);
+        private Color _colorSeleccion = Color.FromArgb(60, 60, 80);
+
+        // ── Constructor ──────────────────────────────────────────────────
         public FrmReproductorMusical()
         {
             InitializeComponent();
 
             ReproductorModelo modelo = new ReproductorModelo();
-            controlador = new ReproductorControlador(modelo);
+            _controlador = new ReproductorControlador(modelo);
 
-            // CALLBACKS
-            controlador.OnTiempoActualizado = ActualizarTiempoActual;
-            controlador.OnDuracionActualizada = ActualizarDuracionTotal;
-            controlador.OnProgresoActualizado = ActualizarProgreso;
-            controlador.OnRedibujarGrafico = () => pnl_grafico.Invalidate();
-            controlador.OnErrorReproduccion = MostrarError;
-            controlador.OnStopReproduccion = ResetearPlayPause;
+            SuscribirEventos();
+            ConfigurarListBox();
+            CargarEfectosEnCombo();
+            ConfigurarVentana();
+            AplicarTema();
+        }
 
-            // El controlador avisa cuando cambió de pista para sincronizar el ListBox
-            // Esto reemplaza las llamadas a SincronizarListBox() en Next/Previous
-            controlador.OnSincronizarLista = SincronizarListBox;
+        // ── Inicialización ───────────────────────────────────────────────
 
-            // EFECTOS
-            foreach (string nombre in controlador.ObtenerNombresEfectos())
+        private void SuscribirEventos()
+        {
+            _controlador.OnTiempoActualizado += ActualizarTiempoActual;
+            _controlador.OnDuracionActualizada += ActualizarDuracionTotal;
+            _controlador.OnProgresoActualizado += ActualizarProgreso;
+            _controlador.OnRedibujarGrafico += () => pnl_grafico.Invalidate();
+            _controlador.OnErrorReproduccion += MostrarError;
+            _controlador.OnStopReproduccion += ResetearPlayPause;
+            _controlador.OnSincronizarLista += SincronizarListBox;
+            _controlador.OnAlbumCambiado += CambiarImagenAlbum;
+        }
+
+        /// <summary>
+        /// Activa OwnerDrawFixed para poder dibujar las columnas
+        /// Nombre | Artista | Álbum dentro de cada fila.
+        /// </summary>
+        private void ConfigurarListBox()
+        {
+            track_list.DrawMode = DrawMode.OwnerDrawFixed;
+            track_list.ItemHeight = 36;               // altura suficiente para dos líneas
+            track_list.DrawItem += TrackList_DrawItem;
+        }
+
+        private void CargarEfectosEnCombo()
+        {
+            foreach (string nombre in _controlador.ObtenerNombresEfectos())
                 cmbEfectosMusicales.Items.Add(nombre);
             cmbEfectosMusicales.SelectedIndex = 0;
+        }
 
-            // CONFIGURACIÓN VENTANA
+        private void ConfigurarVentana()
+        {
             this.SetStyle(
                 ControlStyles.OptimizedDoubleBuffer |
                 ControlStyles.AllPaintingInWmPaint |
@@ -51,10 +84,121 @@ namespace ReproductorMusical
             this.MaximizeBox = false;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.Icon = Properties.Resources.IconoReproductor;
-            controlador.OnAlbumCambiado = CambiarImagenAlbum;
         }
 
-        // EVENTOS DE BOTONES
+        // ── Dibujado personalizado del ListBox ───────────────────────────
+
+        private void TrackList_DrawItem(object sender, DrawItemEventArgs e)
+        {
+            if (e.Index < 0) return;
+
+            IReadOnlyList<PistaMusical> pistas = _controlador.ObtenerTodasLasPistas();
+            if (e.Index >= pistas.Count) return;
+
+            PistaMusical pista = pistas[e.Index];
+
+            // ── Fondo ────────────────────────────────────────────────────
+            bool seleccionado = (e.State & DrawItemState.Selected) != 0;
+            bool esPistaActiva = e.Index == _controlador.IndicePistaActual;
+
+            Color colorFondo;
+            if (seleccionado || esPistaActiva)
+                colorFondo = _colorSeleccion;
+            else
+                colorFondo = (e.Index % 2 == 0)
+                    ? _colorFondoElementos
+                    : Color.FromArgb(
+                        Math.Min(_colorFondoElementos.R + 8, 255),
+                        Math.Min(_colorFondoElementos.G + 8, 255),
+                        Math.Min(_colorFondoElementos.B + 8, 255));
+
+            e.Graphics.FillRectangle(new SolidBrush(colorFondo), e.Bounds);
+
+            // ── Divisiones de columnas ────────────────────────────────────
+            // Columna 1 (Nombre):   40% del ancho
+            // Columna 2 (Artista):  30% del ancho
+            // Columna 3 (Álbum):    30% del ancho
+            int ancho = e.Bounds.Width;
+            int col1End = (int)(ancho * 0.40);
+            int col2End = (int)(ancho * 0.70);
+
+            int margenV = 4;  // margen vertical interior
+            int margenH = 8;  // margen horizontal interior
+            int centroY = e.Bounds.Top + e.Bounds.Height / 2;
+
+            // ── Separadores verticales ────────────────────────────────────
+            Color colorSeparador = Color.FromArgb(50, _colorTexto);
+            using (Pen penSep = new Pen(colorSeparador, 1))
+            {
+                e.Graphics.DrawLine(penSep,
+                    e.Bounds.Left + col1End, e.Bounds.Top + margenV,
+                    e.Bounds.Left + col1End, e.Bounds.Bottom - margenV);
+
+                e.Graphics.DrawLine(penSep,
+                    e.Bounds.Left + col2End, e.Bounds.Top + margenV,
+                    e.Bounds.Left + col2End, e.Bounds.Bottom - margenV);
+            }
+
+            // ── Textos ────────────────────────────────────────────────────
+            StringFormat sf = new StringFormat
+            {
+                Trimming = StringTrimming.EllipsisCharacter,
+                FormatFlags = StringFormatFlags.NoWrap,
+                LineAlignment = StringAlignment.Center
+            };
+
+            // Nombre de archivo (columna 1) — fuente normal, color principal
+            using (Font fNombre = new Font("Segoe UI", 9f, FontStyle.Regular))
+            using (SolidBrush brNombre = new SolidBrush(
+                esPistaActiva ? Color.FromArgb(120, 180, 255) : _colorTexto))
+            {
+                RectangleF rectNombre = new RectangleF(
+                    e.Bounds.Left + margenH,
+                    e.Bounds.Top,
+                    col1End - margenH * 2,
+                    e.Bounds.Height);
+
+                e.Graphics.DrawString(pista.NombreArchivo, fNombre, brNombre, rectNombre, sf);
+            }
+
+            // Artista (columna 2) — fuente ligeramente más pequeña, color secundario
+            using (Font fMeta = new Font("Segoe UI", 8.5f, FontStyle.Regular))
+            using (SolidBrush brMeta = new SolidBrush(_colorTextoSecundario))
+            {
+                string textoArtista = string.IsNullOrEmpty(pista.Artista)
+                    ? "—" : pista.Artista;
+
+                RectangleF rectArtista = new RectangleF(
+                    e.Bounds.Left + col1End + margenH,
+                    e.Bounds.Top,
+                    col2End - col1End - margenH * 2,
+                    e.Bounds.Height);
+
+                e.Graphics.DrawString(textoArtista, fMeta, brMeta, rectArtista, sf);
+
+                // Álbum (columna 3)
+                string textoAlbum = string.IsNullOrEmpty(pista.Album)
+                    ? "—" : pista.Album;
+
+                RectangleF rectAlbum = new RectangleF(
+                    e.Bounds.Left + col2End + margenH,
+                    e.Bounds.Top,
+                    ancho - col2End - margenH * 2,
+                    e.Bounds.Height);
+
+                e.Graphics.DrawString(textoAlbum, fMeta, brMeta, rectAlbum, sf);
+            }
+
+            // ── Línea inferior separadora de filas ────────────────────────
+            using (Pen penFila = new Pen(Color.FromArgb(25, _colorTexto), 1))
+            {
+                e.Graphics.DrawLine(penFila,
+                    e.Bounds.Left, e.Bounds.Bottom - 1,
+                    e.Bounds.Right, e.Bounds.Bottom - 1);
+            }
+        }
+
+        // ── Eventos de botones ───────────────────────────────────────────
 
         private void btn_open_Click(object sender, EventArgs e)
         {
@@ -63,69 +207,190 @@ namespace ReproductorMusical
                 ofd.Filter = "Archivos de Audio|*.mp3;*.wav";
                 ofd.Multiselect = true;
 
-                if (ofd.ShowDialog() == DialogResult.OK)
-                {
-                    controlador.AgregarPistas(ofd.FileNames);
+                if (ofd.ShowDialog() != DialogResult.OK) return;
 
-                    track_list.Items.Clear();
-                    foreach (string nombre in controlador.ObtenerNombresPistas())
-                        track_list.Items.Add(nombre);
+                _controlador.ReemplazarPistas(ofd.FileNames);
 
-                    if (track_list.Items.Count > 0)
-                        track_list.SelectedIndex = 0;
-                }
+                // Limpiamos y repoblamos — el DrawItem leerá los datos frescos
+                track_list.Items.Clear();
+                foreach (string nombre in _controlador.ObtenerNombresPistas())
+                    track_list.Items.Add(nombre);
+
+                if (track_list.Items.Count > 0)
+                    track_list.SelectedIndex = 0;
             }
+        }
+
+        private void btnPlayPause_Click(object sender, EventArgs e)
+        {
+            if (track_list.SelectedIndex == -1)
+            {
+                MessageBox.Show("Por favor, selecciona una canción de la lista.");
+                return;
+            }
+
+            if (!_reproduciendo)
+            {
+                _controlador.Play(track_list.SelectedIndex);
+                _reproduciendo = true;
+            }
+            else
+            {
+                _controlador.Pause();
+                _reproduciendo = false;
+            }
+
+            ActualizarIconos();
+            track_list.Invalidate(); // refresca el resaltado de pista activa
         }
 
         private void btn_stop_Click(object sender, EventArgs e)
         {
-            controlador.Stop();
+            _controlador.Stop();
+            track_list.Invalidate();
         }
 
         private void btn_next_Click(object sender, EventArgs e)
         {
-            controlador.Next();
-            // Ya NO llamamos SincronizarListBox() aquí;
-            // el controlador lo hace via OnSincronizarLista
+            _controlador.Next();
         }
 
         private void btn_preview_Click(object sender, EventArgs e)
         {
-            controlador.Previous();
-            // Ídem
+            _controlador.Previous();
         }
 
         private void track_volume_Scroll(object sender, EventArgs e)
         {
-            controlador.CambiarVolumen(track_volume.Value, track_volume.Maximum);
+            _controlador.CambiarVolumen(track_volume.Value, track_volume.Maximum);
 
             float volNormalizado = (float)track_volume.Value / track_volume.Maximum;
             if (lvl_volumen != null)
-                lvl_volumen.Text = ((int)(volNormalizado * 100)).ToString() + "%";
+                lvl_volumen.Text = ((int)(volNormalizado * 100)) + "%";
         }
 
         private void p_bar_Click(object sender, EventArgs e)
         {
             MouseEventArgs mouse = e as MouseEventArgs;
             if (mouse == null) return;
-            controlador.CambiarPosicion(mouse.X, p_bar.Width);
+            _controlador.CambiarPosicion(mouse.X, p_bar.Width);
         }
 
         private void cmbEfectosMusicales_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (cmbEfectosMusicales.SelectedItem != null)
-            {
-                controlador.CambiarEfecto(cmbEfectosMusicales.SelectedItem.ToString());
-                pnl_grafico.Invalidate();
-            }
+            if (cmbEfectosMusicales.SelectedItem == null) return;
+            _controlador.CambiarEfecto(cmbEfectosMusicales.SelectedItem.ToString());
+            pnl_grafico.Invalidate();
         }
 
         private void pnl_grafico_Paint(object sender, PaintEventArgs e)
         {
-            controlador.RenderizarEfecto(e.Graphics, pnl_grafico.Width, pnl_grafico.Height);
+            _controlador.RenderizarEfecto(e.Graphics, pnl_grafico.Width, pnl_grafico.Height);
         }
 
-        // ACTUALIZACIONES DE UI
+        private void track_list_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_sincronizandoLista) return;
+
+            int idx = track_list.SelectedIndex;
+            if (idx == -1) return;
+
+            if (_reproduciendo)
+                _controlador.Play(idx);
+        }
+
+        // ── Modo de reproducción ─────────────────────────────────────────
+
+        private void btnModo_Click(object sender, EventArgs e)
+        {
+            int total = Enum.GetValues(typeof(ModoReproduccion)).Length;
+            int actual = (int)_controlador.ModoReproduccion;
+            _controlador.ModoReproduccion = (ModoReproduccion)((actual + 1) % total);
+
+            switch (_controlador.ModoReproduccion)
+            {
+                case ModoReproduccion.Aleatorio: btnModo.Text = "🔀"; break;
+                case ModoReproduccion.Secuencial: btnModo.Text = "🔁"; break;
+                case ModoReproduccion.RepetirUno: btnModo.Text = "🔂"; break;
+            }
+        }
+
+        // ── Tema visual ──────────────────────────────────────────────────
+
+        private void btnTema_Click(object sender, EventArgs e)
+        {
+            _temaOscuro = !_temaOscuro;
+            AplicarTema();
+        }
+
+        private void AplicarTema()
+        {
+            Color colorFondo, colorTexto, colorSecundario, colorFondoElementos, colorSeleccion;
+
+            if (_temaOscuro)
+            {
+                colorFondo = Color.FromArgb(18, 18, 18);
+                colorFondoElementos = Color.FromArgb(26, 26, 26);
+                colorTexto = Color.FromArgb(234, 234, 234);
+                colorSecundario = Color.FromArgb(176, 176, 176);
+                colorSeleccion = Color.FromArgb(50, 60, 90);
+                btnTema.Text = "🌙";
+            }
+            else
+            {
+                colorFondo = Color.FromArgb(245, 245, 245);
+                colorFondoElementos = Color.FromArgb(225, 225, 225);
+                colorTexto = Color.FromArgb(30, 30, 30);
+                colorSecundario = Color.FromArgb(85, 85, 85);
+                colorSeleccion = Color.FromArgb(190, 210, 240);
+                btnTema.Text = "☀️";
+            }
+
+            // Guardamos los colores activos para que DrawItem los use
+            _colorTexto = colorTexto;
+            _colorTextoSecundario = colorSecundario;
+            _colorFondoElementos = colorFondoElementos;
+            _colorSeleccion = colorSeleccion;
+
+            // Formulario base
+            this.BackColor = colorFondo;
+            pnlCancionImagen.BackColor = colorFondoElementos;
+
+            // Labels
+            lvl_volumen.BackColor = colorFondo;
+            lvl_volumen.ForeColor = colorTexto;
+            lbl_track_start.ForeColor = colorTexto;
+            lbl_track_end.ForeColor = colorTexto;
+            lblVolume.ForeColor = colorTexto;
+            lblMuSync.ForeColor = colorTexto;
+            lblIcono.BackColor = colorFondo;
+            lblIcono.ForeColor = colorTexto;
+            lblMusicalEffects.ForeColor = colorSecundario;
+
+            // Botones
+            btnModo.ForeColor = colorTexto;
+            btn_preview.ForeColor = colorTexto;
+            btn_next.ForeColor = colorTexto;
+            btnPlayPause.ForeColor = colorTexto;
+            btn_stop.ForeColor = colorTexto;
+            btn_open.ForeColor = colorTexto;
+            btnTema.ForeColor = colorTexto;
+
+            // Controles compuestos
+            cmbEfectosMusicales.BackColor = colorFondo;
+            cmbEfectosMusicales.ForeColor = colorTexto;
+            track_list.BackColor = colorFondoElementos;
+            track_list.ForeColor = colorTexto;
+            track_volume.BackColor = colorFondo;
+
+            _controlador.ColorFondoGrafico = colorFondoElementos;
+
+            ActualizarIconos();
+            pnl_grafico.Invalidate();
+            track_list.Invalidate(); // redibuja las filas con los nuevos colores
+        }
+
+        // ── Callbacks desde el Controlador ───────────────────────────────
 
         private void ActualizarTiempoActual(string texto)
         {
@@ -154,190 +419,102 @@ namespace ReproductorMusical
             );
         }
 
-        // Sincroniza el ListBox con la pista activa del controlador
         private void SincronizarListBox()
         {
-            sincronizandoLista = true;
-            int idx = controlador.IndicePistaActual;
+            _sincronizandoLista = true;
+
+            int idx = _controlador.IndicePistaActual;
             if (idx >= 0 && idx < track_list.Items.Count)
                 track_list.SelectedIndex = idx;
-            sincronizandoLista = false;
 
-            // Sincroniza también el estado del botón Play/Pause
-            reproduciendo = true;
-            btnPlayPause.Text = "||";
-        }
+            _sincronizandoLista = false;
 
-        // Solo actúa cuando el cambio viene del usuario (clic en lista)
-        private void track_list_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (sincronizandoLista) return;
-
-            int idx = track_list.SelectedIndex;
-            if (idx == -1) return;
-
-            if (reproduciendo)
-            {
-                controlador.Play(idx);
-                // No llamar SincronizarListBox aquí; Play() lo hará via OnSincronizarLista
-            }
-        }
-
-        // MÉTODOS VACÍOS REQUERIDOS POR EL DESIGNER
-        private void lvl_volumen_Click(object sender, EventArgs e) { }
-        private void timer1_Tick(object sender, EventArgs e) { }
-        private void lbl_track_start_Click(object sender, EventArgs e) { }
-        private void lbl_track_end_Click(object sender, EventArgs e) { }
-
-        // TEMA VISUAL
-
-        private void btnTema_Click(object sender, EventArgs e)
-        {
-            temaOscuro = !temaOscuro;
-
-            Color colorFondo, colorTexto, colorSecundario, colorFondoElementos;
-
-            if (temaOscuro)
-            {
-                colorFondo = Color.FromArgb(18, 18, 18);
-                colorFondoElementos = Color.FromArgb(20, 20, 20);
-                colorTexto = Color.FromArgb(234, 234, 234);
-                colorSecundario = Color.FromArgb(176, 176, 176);
-                btnTema.Text = "🌙";
-            }
-            else
-            {
-                colorFondo = Color.FromArgb(245, 245, 245);
-                colorFondoElementos = Color.FromArgb(230, 230, 230);
-                colorTexto = Color.FromArgb(30, 30, 30);
-                colorSecundario = Color.FromArgb(85, 85, 85);
-                btnTema.Text = "☀️";
-            }
-
-            this.BackColor = colorFondo;
-            pnl_grafico.BackColor = colorFondo;
-            pnlCancionImagen.BackColor = colorFondoElementos;
-            lvl_volumen.BackColor = colorFondo;
-            lvl_volumen.ForeColor = colorTexto;
-            lbl_track_start.ForeColor = colorTexto;
-            lbl_track_end.ForeColor = colorTexto;
-            lblVolume.ForeColor = colorTexto;
-            lblMusicalEffects.ForeColor = colorSecundario;
-            lblMuSync.ForeColor = colorTexto;
-            btnModo.ForeColor = colorTexto;
-            btn_preview.ForeColor = colorTexto;
-            btn_next.ForeColor = colorTexto;
-            btnPlayPause.ForeColor = colorTexto;
-            btn_stop.ForeColor = colorTexto;
-            btn_open.ForeColor = colorTexto;
-            btnTema.ForeColor = colorTexto;
-            cmbEfectosMusicales.BackColor = colorFondo;
-            cmbEfectosMusicales.ForeColor = colorTexto;
-            track_list.BackColor = colorFondoElementos;
-            track_list.ForeColor = colorTexto;
-            track_volume.BackColor = colorFondo;
-
-            controlador.ColorFondoGrafico = colorFondo;
-            pnl_grafico.Invalidate();
-        }
-
-        // PLAY / PAUSE
-
-        private void btnPlayPause_Click(object sender, EventArgs e)
-        {
-            if (track_list.SelectedIndex == -1)
-            {
-                MessageBox.Show("Por favor, selecciona una canción de la lista.");
-                return;
-            }
-
-            if (!reproduciendo)
-            {
-                controlador.Play(track_list.SelectedIndex);
-                btnPlayPause.Text = "||";
-                reproduciendo = true;
-            }
-            else
-            {
-                controlador.Pause();
-                btnPlayPause.Text = "▶";
-                reproduciendo = false;
-            }
+            _reproduciendo = true;
+            ActualizarIconos();
+            track_list.Invalidate(); // resalta la fila activa recién cambiada
         }
 
         private void ResetearPlayPause()
         {
-            reproduciendo = false;
-            btnPlayPause.Text = "▶";
+            _reproduciendo = false;
+            ActualizarIconos();
+            track_list.Invalidate();
         }
 
-        private void btnPlayPause_Paint(object sender, PaintEventArgs e)
+        private void ActualizarIconos()
         {
-            e.Graphics.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-
-            Rectangle rect = new Rectangle(1, 1, btnPlayPause.Width - 2, btnPlayPause.Height - 2);
-
-            using (System.Drawing.Drawing2D.LinearGradientBrush brush =
-                new System.Drawing.Drawing2D.LinearGradientBrush(
-                    rect,
-                    Color.FromArgb(186, 85, 211),
-                    Color.FromArgb(0, 191, 255),
-                    45f))
-            {
-                e.Graphics.FillEllipse(brush, rect);
-            }
-
-            using (StringFormat sf = new StringFormat())
-            {
-                sf.Alignment = StringAlignment.Center;
-                sf.LineAlignment = StringAlignment.Center;
-                e.Graphics.DrawString(
-                    btnPlayPause.Text,
-                    btnPlayPause.Font,
-                    Brushes.White,
-                    rect,
-                    sf
-                );
-            }
+            btnPlayPause.Image = _reproduciendo
+                ? (_temaOscuro
+                    ? Properties.Resources.PauseOscuro
+                    : Properties.Resources.PauseClaro)
+                : (_temaOscuro
+                    ? Properties.Resources.PlayOscuro
+                    : Properties.Resources.PlayClaro);
         }
 
-        // MODO DE REPRODUCCIÓN
-
-        private void btnModo_Click(object sender, EventArgs e)
+        private void CambiarImagenAlbum(Image portada)
         {
-            modoReproduccion = (modoReproduccion + 1) % 3;
-
-            switch (modoReproduccion)
-            {
-                case 0: btnModo.Text = "🔀"; break;
-                case 1: btnModo.Text = "🔁"; break;
-                case 2: btnModo.Text = "🔂"; break;
-            }
-
-            controlador.ModoReproduccion = modoReproduccion;
-        }
-
-        // Reemplaza el método CambiarImagenAlbum completo:
-        private void CambiarImagenAlbum(System.Drawing.Image portada)
-        {
-            // Libera la imagen anterior para no acumular memoria
             if (pnlCancionImagen.BackgroundImage != null)
             {
-                System.Drawing.Image anterior = pnlCancionImagen.BackgroundImage;
+                Image anterior = pnlCancionImagen.BackgroundImage;
                 pnlCancionImagen.BackgroundImage = null;
                 anterior.Dispose();
             }
 
             if (portada != null)
             {
-                // Usa la portada embebida del mp3
                 pnlCancionImagen.BackgroundImage = portada;
                 pnlCancionImagen.BackgroundImageLayout = ImageLayout.Zoom;
             }
             else
             {
-                    pnlCancionImagen.BackgroundImage = Properties.Resources.NoPortada;
+                pnlCancionImagen.BackgroundImage = Properties.Resources.NoPortada;
             }
         }
+
+        // ── Carga del formulario ─────────────────────────────────────────
+
+        private void FrmReproductorMusical_Load(object sender, EventArgs e)
+        {
+            RedondearControl(pnlCancionImagen, 50);
+            RedondearControl(pnl_grafico, 50);
+            RedondearControl(track_list, 20);
+            RedondearControl(p_bar, 5);
+            RedondearControl(btnTema, 60);
+            RedondearControl(btnModo, 50);
+            RedondearControl(btn_preview, 50);
+            RedondearControl(btn_next, 50);
+            RedondearControl(btnPlayPause, 90);
+            RedondearControl(btn_stop, 50);
+            RedondearControl(btn_open, 50);
+
+            btnTema.TextAlign = ContentAlignment.MiddleCenter;
+            btnModo.TextAlign = ContentAlignment.MiddleCenter;
+            btn_preview.TextAlign = ContentAlignment.MiddleCenter;
+            btn_next.TextAlign = ContentAlignment.MiddleCenter;
+            btn_stop.TextAlign = ContentAlignment.MiddleCenter;
+            btn_open.TextAlign = ContentAlignment.MiddleCenter;
+
+            ActualizarIconos();
+        }
+
+        // ── Helper visual ────────────────────────────────────────────────
+
+        private void RedondearControl(Control control, int radio)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddArc(0, 0, radio, radio, 180, 90);
+            path.AddArc(control.Width - radio, 0, radio, radio, 270, 90);
+            path.AddArc(control.Width - radio, control.Height - radio, radio, radio, 0, 90);
+            path.AddArc(0, control.Height - radio, radio, radio, 90, 90);
+            path.CloseFigure();
+            control.Region = new Region(path);
+        }
+
+        // ── Métodos vacíos requeridos por el Designer ────────────────────
+        private void lvl_volumen_Click(object sender, EventArgs e) { }
+        private void timer1_Tick(object sender, EventArgs e) { }
+        private void lbl_track_start_Click(object sender, EventArgs e) { }
+        private void lbl_track_end_Click(object sender, EventArgs e) { }
     }
 }

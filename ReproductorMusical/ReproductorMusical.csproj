@@ -110,6 +110,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controlador\GestorPlaylist.cs" />
     <Compile Include="Controlador\ReproductorControlador.cs" />
     <Compile Include="EfectosVisuales\EfectoAnillosConcentricos.cs" />
     <Compile Include="EfectosVisuales\EfectoBarrasVerticales.cs" />
@@ -120,6 +121,7 @@
     <Compile Include="EfectosVisuales\EfectoParticulas.cs" />
     <Compile Include="EfectosVisuales\EfectoPicosDeFrecuencia.cs" />
     <Compile Include="EfectosVisuales\IEfectoVisual.cs" />
+    <Compile Include="Modelo\ModoReproduccion.cs" />
     <Compile Include="Modelo\PistaMusical.cs" />
     <Compile Include="Modelo\ReproductorModelo.cs" />
     <Compile Include="Program.cs" />

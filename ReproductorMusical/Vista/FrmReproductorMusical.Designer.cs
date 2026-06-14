@@ -50,6 +50,7 @@
             this.btnTema = new System.Windows.Forms.Button();
             this.btnModo = new System.Windows.Forms.Button();
             this.pnlCancionImagen = new System.Windows.Forms.Panel();
+            this.lblIcono = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).BeginInit();
             this.SuspendLayout();
             // 
@@ -87,15 +88,13 @@
             this.btnPlayPause.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPlayPause.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnPlayPause.ForeColor = System.Drawing.Color.White;
-            this.btnPlayPause.Location = new System.Drawing.Point(469, 617);
+            this.btnPlayPause.Location = new System.Drawing.Point(467, 605);
             this.btnPlayPause.Margin = new System.Windows.Forms.Padding(0);
             this.btnPlayPause.Name = "btnPlayPause";
-            this.btnPlayPause.Size = new System.Drawing.Size(80, 80);
+            this.btnPlayPause.Size = new System.Drawing.Size(95, 95);
             this.btnPlayPause.TabIndex = 2;
-            this.btnPlayPause.Text = "▶";
             this.btnPlayPause.UseVisualStyleBackColor = true;
             this.btnPlayPause.Click += new System.EventHandler(this.btnPlayPause_Click);
-            this.btnPlayPause.Paint += new System.Windows.Forms.PaintEventHandler(this.btnPlayPause_Paint);
             // 
             // btn_stop
             // 
@@ -186,7 +185,8 @@
             // 
             // pnl_grafico
             // 
-            this.pnl_grafico.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
+            this.pnl_grafico.BackColor = System.Drawing.Color.Transparent;
+            this.pnl_grafico.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(20)))), ((int)(((byte)(20)))), ((int)(((byte)(20)))));
             this.pnl_grafico.Location = new System.Drawing.Point(356, 96);
             this.pnl_grafico.Name = "pnl_grafico";
             this.pnl_grafico.Size = new System.Drawing.Size(665, 344);
@@ -237,7 +237,7 @@
             this.lblMuSync.AutoSize = true;
             this.lblMuSync.Font = new System.Drawing.Font("Microsoft Sans Serif", 27.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblMuSync.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(234)))), ((int)(((byte)(234)))), ((int)(((byte)(234)))));
-            this.lblMuSync.Location = new System.Drawing.Point(450, 24);
+            this.lblMuSync.Location = new System.Drawing.Point(417, 24);
             this.lblMuSync.Name = "lblMuSync";
             this.lblMuSync.Size = new System.Drawing.Size(160, 42);
             this.lblMuSync.TabIndex = 18;
@@ -263,9 +263,9 @@
             this.btnTema.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnTema.Font = new System.Drawing.Font("Segoe UI Symbol", 21.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnTema.ForeColor = System.Drawing.Color.White;
-            this.btnTema.Location = new System.Drawing.Point(959, 16);
+            this.btnTema.Location = new System.Drawing.Point(960, 17);
             this.btnTema.Name = "btnTema";
-            this.btnTema.Size = new System.Drawing.Size(75, 50);
+            this.btnTema.Size = new System.Drawing.Size(60, 60);
             this.btnTema.TabIndex = 19;
             this.btnTema.Text = "🌙";
             this.btnTema.UseVisualStyleBackColor = true;
@@ -281,7 +281,7 @@
             this.btnModo.Name = "btnModo";
             this.btnModo.Size = new System.Drawing.Size(75, 50);
             this.btnModo.TabIndex = 20;
-            this.btnModo.Text = "🔀";
+            this.btnModo.Text = "🔁";
             this.btnModo.UseVisualStyleBackColor = true;
             this.btnModo.Click += new System.EventHandler(this.btnModo_Click);
             // 
@@ -294,12 +294,24 @@
             this.pnlCancionImagen.Size = new System.Drawing.Size(300, 300);
             this.pnlCancionImagen.TabIndex = 0;
             // 
+            // lblIcono
+            // 
+            this.lblIcono.AutoSize = true;
+            this.lblIcono.BackColor = System.Drawing.Color.Transparent;
+            this.lblIcono.Font = new System.Drawing.Font("Microsoft Sans Serif", 54.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblIcono.Location = new System.Drawing.Point(575, 0);
+            this.lblIcono.Name = "lblIcono";
+            this.lblIcono.Size = new System.Drawing.Size(88, 83);
+            this.lblIcono.TabIndex = 21;
+            this.lblIcono.Text = "▶";
+            // 
             // FrmReproductorMusical
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1046, 792);
+            this.Controls.Add(this.lblIcono);
             this.Controls.Add(this.btnModo);
             this.Controls.Add(this.pnlCancionImagen);
             this.Controls.Add(this.btnTema);
@@ -326,6 +338,7 @@
             this.Opacity = 0.9D;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MuSync";
+            this.Load += new System.EventHandler(this.FrmReproductorMusical_Load);
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -354,6 +367,7 @@
         private System.Windows.Forms.Button btnTema;
         private System.Windows.Forms.Panel pnlCancionImagen;
         private System.Windows.Forms.Button btnModo;
+        private System.Windows.Forms.Label lblIcono;
     }
 }
 
