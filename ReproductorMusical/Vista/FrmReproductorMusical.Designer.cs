@@ -54,6 +54,7 @@
             this.btnMinimizar = new System.Windows.Forms.Button();
             this.pnlBarraSuperior = new System.Windows.Forms.Panel();
             this.lblIcono = new System.Windows.Forms.Label();
+            this.btnLimpiar = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.track_volume)).BeginInit();
             this.pnlBarraSuperior.SuspendLayout();
             this.SuspendLayout();
@@ -353,12 +354,27 @@
             this.lblIcono.TabIndex = 24;
             this.lblIcono.Text = "▷";
             // 
+            // btnLimpiar
+            // 
+            this.btnLimpiar.FlatAppearance.BorderSize = 0;
+            this.btnLimpiar.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnLimpiar.Font = new System.Drawing.Font("Segoe UI Symbol", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLimpiar.ForeColor = System.Drawing.Color.White;
+            this.btnLimpiar.Location = new System.Drawing.Point(976, 642);
+            this.btnLimpiar.Name = "btnLimpiar";
+            this.btnLimpiar.Size = new System.Drawing.Size(30, 30);
+            this.btnLimpiar.TabIndex = 21;
+            this.btnLimpiar.Text = "🧹";
+            this.btnLimpiar.UseVisualStyleBackColor = true;
+            this.btnLimpiar.Click += new System.EventHandler(this.btnLimpiar_Click);
+            // 
             // FrmReproductorMusical
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(18)))), ((int)(((byte)(18)))), ((int)(((byte)(18)))));
             this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
             this.ClientSize = new System.Drawing.Size(1034, 829);
+            this.Controls.Add(this.btnLimpiar);
             this.Controls.Add(this.pnlBarraSuperior);
             this.Controls.Add(this.btnModo);
             this.Controls.Add(this.pnlCancionImagen);
@@ -420,6 +436,7 @@
         private System.Windows.Forms.Button btnMinimizar;
         private System.Windows.Forms.Panel pnlBarraSuperior;
         private System.Windows.Forms.Label lblIcono;
+        private System.Windows.Forms.Button btnLimpiar;
     }
 }
 

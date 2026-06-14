@@ -402,6 +402,8 @@ namespace ReproductorMusical
             btnTema.BackColor = colorbtn;
             btnExit.BackColor = colorbtn;
             btnMinimizar.BackColor = colorbtn;
+            btnLimpiar.BackColor = colorFondoElementos;
+            btnLimpiar.ForeColor = colorTexto;
 
             // Controles compuestos
             cmbEfectosMusicales.BackColor = colorCmb;
@@ -515,6 +517,7 @@ namespace ReproductorMusical
             RedondearControl(btn_stop, 50);
             RedondearControl(btn_open, 50);
             RedondearControl(pnlBarraSuperior, 50);
+            RedondearControl(btnLimpiar, 20);
 
             RedondearControl(btnTema, 20);
             RedondearControl(btnExit, 20);
@@ -573,5 +576,29 @@ namespace ReproductorMusical
         {
             this.WindowState = FormWindowState.Minimized;
         }
+
+        private void btnLimpiar_Click(object sender, EventArgs e)
+        {
+            // Limpiar la lista de canciones
+            track_list.Items.Clear();
+
+            // Detener cualquier reproducción en curso
+            _controlador.Stop();
+
+            // Reiniciar labels de tiempo
+            lbl_track_start.Text = "00:00";
+            lbl_track_end.Text = "00:00";
+
+            // Reiniciar barra de progreso
+            p_bar.Value = 0;
+
+            // Reiniciar estado de reproducción
+            _reproduciendo = false;
+            ActualizarIconos();
+
+            // Opcional: limpiar la imagen del álbum
+            pnlCancionImagen.BackgroundImage = Properties.Resources.NoPortada;
+        }
+
     }
 }
