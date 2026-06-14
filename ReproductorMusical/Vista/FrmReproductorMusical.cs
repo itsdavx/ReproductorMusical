@@ -30,6 +30,17 @@ namespace ReproductorMusical
         public FrmReproductorMusical()
         {
             InitializeComponent();
+            cmbEfectosMusicales.Paint += (s, e) =>
+            {
+                using (SolidBrush brush = new SolidBrush(_colorFondoElementos))
+                {
+                    e.Graphics.FillRectangle(brush, cmbEfectosMusicales.ClientRectangle);
+                }
+                ControlPaint.DrawComboButton(e.Graphics,
+                    new Rectangle(cmbEfectosMusicales.Width - 20, 0, 20, cmbEfectosMusicales.Height),
+                    ButtonState.Normal);
+            };
+
 
             ReproductorModelo modelo = new ReproductorModelo();
             _controlador = new ReproductorControlador(modelo);
@@ -39,6 +50,7 @@ namespace ReproductorMusical
             CargarEfectosEnCombo();
             ConfigurarVentana();
             AplicarTema();
+        
         }
 
         // ── Inicialización ───────────────────────────────────────────────
@@ -81,8 +93,6 @@ namespace ReproductorMusical
                 ControlStyles.UserPaint,
                 true
             );
-            this.MaximizeBox = false;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.Icon = Properties.Resources.IconoReproductor;
         }
 
@@ -102,31 +112,38 @@ namespace ReproductorMusical
             bool esPistaActiva = e.Index == _controlador.IndicePistaActual;
 
             Color colorFondo;
-            if (seleccionado || esPistaActiva)
-                colorFondo = _colorSeleccion;
+            if (_temaOscuro)
+            {
+                // En tema oscuro: seleccionado/activo = negro intenso
+                if (seleccionado || esPistaActiva)
+                    colorFondo = Color.Black;
+                else
+                    colorFondo = _colorFondoElementos;
+            }
             else
-                colorFondo = (e.Index % 2 == 0)
-                    ? _colorFondoElementos
-                    : Color.FromArgb(
-                        Math.Min(_colorFondoElementos.R + 8, 255),
-                        Math.Min(_colorFondoElementos.G + 8, 255),
-                        Math.Min(_colorFondoElementos.B + 8, 255));
+            {
+                // En tema claro: se mantiene la lógica actual
+                if (seleccionado || esPistaActiva)
+                    colorFondo = _colorSeleccion;
+                else
+                    colorFondo = (e.Index % 2 == 0)
+                        ? _colorFondoElementos
+                        : Color.FromArgb(
+                            Math.Min(_colorFondoElementos.R + 8, 255),
+                            Math.Min(_colorFondoElementos.G + 8, 255),
+                            Math.Min(_colorFondoElementos.B + 8, 255));
+            }
 
             e.Graphics.FillRectangle(new SolidBrush(colorFondo), e.Bounds);
 
             // ── Divisiones de columnas ────────────────────────────────────
-            // Columna 1 (Nombre):   40% del ancho
-            // Columna 2 (Artista):  30% del ancho
-            // Columna 3 (Álbum):    30% del ancho
             int ancho = e.Bounds.Width;
             int col1End = (int)(ancho * 0.40);
             int col2End = (int)(ancho * 0.70);
 
-            int margenV = 4;  // margen vertical interior
-            int margenH = 8;  // margen horizontal interior
-            int centroY = e.Bounds.Top + e.Bounds.Height / 2;
+            int margenV = 4;
+            int margenH = 8;
 
-            // ── Separadores verticales ────────────────────────────────────
             Color colorSeparador = Color.FromArgb(50, _colorTexto);
             using (Pen penSep = new Pen(colorSeparador, 1))
             {
@@ -147,8 +164,11 @@ namespace ReproductorMusical
                 LineAlignment = StringAlignment.Center
             };
 
-            // Nombre de archivo (columna 1) — fuente normal, color principal
-            using (Font fNombre = new Font("Segoe UI", 9f, FontStyle.Regular))
+            // Fuente: normal por defecto, negrita si está seleccionada/activa
+            FontStyle estilo = (seleccionado || esPistaActiva) ? FontStyle.Bold : FontStyle.Regular;
+
+            // Nombre de archivo (columna 1)
+            using (Font fNombre = new Font("Segoe UI", 10f, estilo))
             using (SolidBrush brNombre = new SolidBrush(
                 esPistaActiva ? Color.FromArgb(120, 180, 255) : _colorTexto))
             {
@@ -161,13 +181,11 @@ namespace ReproductorMusical
                 e.Graphics.DrawString(pista.NombreArchivo, fNombre, brNombre, rectNombre, sf);
             }
 
-            // Artista (columna 2) — fuente ligeramente más pequeña, color secundario
-            using (Font fMeta = new Font("Segoe UI", 8.5f, FontStyle.Regular))
+            // Artista y Álbum (columna 2 y 3)
+            using (Font fMeta = new Font("Segoe UI", 9.5f, estilo))
             using (SolidBrush brMeta = new SolidBrush(_colorTextoSecundario))
             {
-                string textoArtista = string.IsNullOrEmpty(pista.Artista)
-                    ? "—" : pista.Artista;
-
+                string textoArtista = string.IsNullOrEmpty(pista.Artista) ? "—" : pista.Artista;
                 RectangleF rectArtista = new RectangleF(
                     e.Bounds.Left + col1End + margenH,
                     e.Bounds.Top,
@@ -176,10 +194,7 @@ namespace ReproductorMusical
 
                 e.Graphics.DrawString(textoArtista, fMeta, brMeta, rectArtista, sf);
 
-                // Álbum (columna 3)
-                string textoAlbum = string.IsNullOrEmpty(pista.Album)
-                    ? "—" : pista.Album;
-
+                string textoAlbum = string.IsNullOrEmpty(pista.Album) ? "—" : pista.Album;
                 RectangleF rectAlbum = new RectangleF(
                     e.Bounds.Left + col2End + margenH,
                     e.Bounds.Top,
@@ -197,6 +212,8 @@ namespace ReproductorMusical
                     e.Bounds.Right, e.Bounds.Bottom - 1);
             }
         }
+
+
 
         // ── Eventos de botones ───────────────────────────────────────────
 
@@ -325,7 +342,7 @@ namespace ReproductorMusical
 
         private void AplicarTema()
         {
-            Color colorFondo, colorTexto, colorSecundario, colorFondoElementos, colorSeleccion;
+            Color colorFondo, colorTexto, colorSecundario, colorFondoElementos, colorSeleccion, colorbtn, colorCmb;
 
             if (_temaOscuro)
             {
@@ -334,6 +351,8 @@ namespace ReproductorMusical
                 colorTexto = Color.FromArgb(234, 234, 234);
                 colorSecundario = Color.FromArgb(176, 176, 176);
                 colorSeleccion = Color.FromArgb(50, 60, 90);
+                colorbtn = Color.FromArgb(30, 30, 30);
+                colorCmb = Color.FromArgb(20, 20, 20);
                 btnTema.Text = "🌙";
             }
             else
@@ -343,6 +362,8 @@ namespace ReproductorMusical
                 colorTexto = Color.FromArgb(30, 30, 30);
                 colorSecundario = Color.FromArgb(85, 85, 85);
                 colorSeleccion = Color.FromArgb(190, 210, 240);
+                colorbtn = Color.FromArgb(210, 210, 210);
+                colorCmb = Color.FromArgb(200, 200, 200);
                 btnTema.Text = "☀️";
             }
 
@@ -355,6 +376,7 @@ namespace ReproductorMusical
             // Formulario base
             this.BackColor = colorFondo;
             pnlCancionImagen.BackColor = colorFondoElementos;
+            pnlBarraSuperior.BackColor = colorFondoElementos;
 
             // Labels
             lvl_volumen.BackColor = colorFondo;
@@ -363,9 +385,9 @@ namespace ReproductorMusical
             lbl_track_end.ForeColor = colorTexto;
             lblVolume.ForeColor = colorTexto;
             lblMuSync.ForeColor = colorTexto;
-            lblIcono.BackColor = colorFondo;
-            lblIcono.ForeColor = colorTexto;
             lblMusicalEffects.ForeColor = colorSecundario;
+            lblIcono.ForeColor = colorTexto;
+            lblIcono.BackColor = colorFondoElementos;
 
             // Botones
             btnModo.ForeColor = colorTexto;
@@ -375,13 +397,19 @@ namespace ReproductorMusical
             btn_stop.ForeColor = colorTexto;
             btn_open.ForeColor = colorTexto;
             btnTema.ForeColor = colorTexto;
+            btnExit.ForeColor = colorTexto;
+            btnMinimizar.ForeColor = colorTexto;
+            btnTema.BackColor = colorbtn;
+            btnExit.BackColor = colorbtn;
+            btnMinimizar.BackColor = colorbtn;
 
             // Controles compuestos
-            cmbEfectosMusicales.BackColor = colorFondo;
+            cmbEfectosMusicales.BackColor = colorCmb;
             cmbEfectosMusicales.ForeColor = colorTexto;
             track_list.BackColor = colorFondoElementos;
             track_list.ForeColor = colorTexto;
             track_volume.BackColor = colorFondo;
+
 
             _controlador.ColorFondoGrafico = colorFondoElementos;
 
@@ -480,13 +508,19 @@ namespace ReproductorMusical
             RedondearControl(pnl_grafico, 50);
             RedondearControl(track_list, 20);
             RedondearControl(p_bar, 5);
-            RedondearControl(btnTema, 60);
             RedondearControl(btnModo, 50);
             RedondearControl(btn_preview, 50);
             RedondearControl(btn_next, 50);
             RedondearControl(btnPlayPause, 90);
             RedondearControl(btn_stop, 50);
             RedondearControl(btn_open, 50);
+            RedondearControl(pnlBarraSuperior, 50);
+
+            RedondearControl(btnTema, 20);
+            RedondearControl(btnExit, 20);
+            RedondearControl(btnMinimizar, 20);
+
+            RedondearFormulario(50); // puedes ajustar el radio a tu gusto
 
             btnTema.TextAlign = ContentAlignment.MiddleCenter;
             btnModo.TextAlign = ContentAlignment.MiddleCenter;
@@ -500,6 +534,7 @@ namespace ReproductorMusical
 
         // ── Helper visual ────────────────────────────────────────────────
 
+
         private void RedondearControl(Control control, int radio)
         {
             GraphicsPath path = new GraphicsPath();
@@ -511,10 +546,32 @@ namespace ReproductorMusical
             control.Region = new Region(path);
         }
 
+        private void RedondearFormulario(int radio)
+        {
+            GraphicsPath path = new GraphicsPath();
+            path.AddArc(0, 0, radio, radio, 180, 90);
+            path.AddArc(this.Width - radio, 0, radio, radio, 270, 90);
+            path.AddArc(this.Width - radio, this.Height - radio, radio, radio, 0, 90);
+            path.AddArc(0, this.Height - radio, radio, radio, 90, 90);
+            path.CloseFigure();
+            this.Region = new Region(path);
+        }
+
+
         // ── Métodos vacíos requeridos por el Designer ────────────────────
         private void lvl_volumen_Click(object sender, EventArgs e) { }
         private void timer1_Tick(object sender, EventArgs e) { }
         private void lbl_track_start_Click(object sender, EventArgs e) { }
         private void lbl_track_end_Click(object sender, EventArgs e) { }
+
+        private void btnExit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void btnMinimizar_Click(object sender, EventArgs e)
+        {
+            this.WindowState = FormWindowState.Minimized;
+        }
     }
 }
