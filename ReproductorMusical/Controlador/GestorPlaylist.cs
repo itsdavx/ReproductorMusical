@@ -114,5 +114,27 @@ namespace ReproductorMusical.Controlador
                         ? IndicePistaActual - 1 : _pistas.Count - 1;
             }
         }
+
+        public void QuitarPista(int indice)
+        {
+            if (indice < 0 || indice >= _pistas.Count) return;
+
+            _pistas.RemoveAt(indice);
+
+            // Ajustar el índice activo para que no quede desincronizado
+            if (_pistas.Count == 0)
+            {
+                IndicePistaActual = -1;
+            }
+            else if (indice < IndicePistaActual)
+            {
+                IndicePistaActual--;   // una pista anterior fue removida, el índice corre uno atrás
+            }
+            else if (indice == IndicePistaActual)
+            {
+                IndicePistaActual = -1;  // la activa fue removida, no hay pista activa
+            }
+            // si indice > IndicePistaActual, el índice activo no cambia
+        }
     }
 }

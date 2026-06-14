@@ -415,6 +415,8 @@ namespace ReproductorMusical
             btnMinimizar.BackColor = colorbtn;
             btnLimpiar.BackColor = colorFondoElementos;
             btnLimpiar.ForeColor = colorTexto;
+            btnQuitarSeleccionado.BackColor = colorbtn;
+            btnQuitarSeleccionado.ForeColor = colorTexto;
 
             // Controles compuestos
             cmbEfectosMusicales.BackColor = colorCmb;
@@ -540,7 +542,8 @@ namespace ReproductorMusical
                 RedondearControl(btn_open, 50);
                 RedondearControl(pnlBarraSuperior, 50);
                 RedondearControl(btnLimpiar, 20);
-
+                RedondearControl(btnQuitarSeleccionado, 20);
+            
                 RedondearControl(btnTema, 20);
                 RedondearControl(btnExit, 20);
                 RedondearControl(btnMinimizar, 20);
@@ -687,5 +690,28 @@ private void RedondearControl(Control control, int radio)
             pnlCancionImagen.BackgroundImage = (Image)Properties.Resources.NoPortada.Clone();
         }
 
+        private void btnQuitarSeleccionado_Click(object sender, EventArgs e)
+        {
+            int idx = track_list.SelectedIndex;
+            if (idx == -1) return;
+
+            // Si la pista seleccionada es la que está sonando, detener primero
+            if (idx == _controlador.IndicePistaActual)
+            {
+                _controlador.Stop();
+                _reproduciendo = false;
+                ActualizarIconos();
+            }
+
+            // Quitar del modelo y de la vista
+            _controlador.QuitarPista(idx);
+            track_list.Items.RemoveAt(idx);
+
+            // Seleccionar la siguiente pista disponible (o la anterior si era la última)
+            if (track_list.Items.Count > 0)
+            {
+                track_list.SelectedIndex = Math.Min(idx, track_list.Items.Count - 1);
+            }
+        }
     }
 }

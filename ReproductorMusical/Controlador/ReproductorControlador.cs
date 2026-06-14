@@ -295,5 +295,9 @@ namespace ReproductorMusical.Controlador
                 );
             }
         }
+        public void QuitarPista(int indice)
+        {
+            _playlist.QuitarPista(indice);
+        }
     }
 }
