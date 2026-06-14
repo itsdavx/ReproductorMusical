@@ -58,7 +58,6 @@ namespace ReproductorMusical
 
             ReproductorModelo modelo = new ReproductorModelo();
             _controlador = new ReproductorControlador(modelo);
-
             SuscribirEventos();
             ConfigurarListBox();
             CargarEfectosEnCombo();

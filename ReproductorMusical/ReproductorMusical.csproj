@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="Controlador\GestorPlaylist.cs" />
     <Compile Include="Controlador\ReproductorControlador.cs" />
+    <Compile Include="EfectosVisuales\AlgoritmosGraficos.cs" />
     <Compile Include="EfectosVisuales\EfectoAnillosConcentricos.cs" />
     <Compile Include="EfectosVisuales\EfectoBarrasVerticales.cs" />
     <Compile Include="EfectosVisuales\EfectoEcualizadorLED.cs" />

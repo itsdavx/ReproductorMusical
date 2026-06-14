@@ -25,11 +25,6 @@ namespace ReproductorMusical.Controlador
         // ── Timer de animación (hilo UI, sin threads secundarios) ────────
         private Timer _timerFPS;
 
-        // ── Buffer de audio simulado para la visualización ───────────────
-        private const int FFT_LENGTH = 128;
-        private readonly float[] _bufferMuestras = new float[FFT_LENGTH];
-        private readonly Random _rand = new Random();
-
         // ── Flag que evita detección falsa de fin de pista ───────────────
         private bool _cambiandoPista = false;
 
@@ -130,8 +125,7 @@ namespace ReproductorMusical.Controlador
             if (!_playlist.SeleccionarPista(indicePista)) return;
 
             // Si es la misma pista pausada, solo reanudamos
-            if (_modelo.EstaPausado && indicePista == _playlist.IndicePistaActual
-                && _bufferMuestras != null)
+            if (_modelo.EstaPausado && indicePista == _playlist.IndicePistaActual)
             {
                 _modelo.Reanudar();
                 IniciarTimer();
@@ -226,9 +220,12 @@ namespace ReproductorMusical.Controlador
 
             if (!_modelo.EstaReproduciendo && !_modelo.EstaPausado) return;
 
-            ActualizarBuffer();
-            _efectoActual?.Renderizar(g, ancho, alto, _bufferMuestras);
+            float[] bandas = _modelo.ObtenerBandas();
+            if (bandas == null) return;
+
+            _efectoActual?.Renderizar(g, ancho, alto, bandas);
         }
+
 
         // ── Timer ────────────────────────────────────────────────────────
 
@@ -276,25 +273,6 @@ namespace ReproductorMusical.Controlador
             OnRedibujarGrafico?.Invoke();
         }
 
-        // ── Buffer de visualización ──────────────────────────────────────
-
-        private void ActualizarBuffer()
-        {
-            float volumen = _modelo.Volumen;
-            if (volumen == 0f) volumen = 0.01f;
-
-            double tiempoFactor = _modelo.TiempoActual.TotalMilliseconds * 0.05;
-
-            for (int i = 0; i < FFT_LENGTH; i++)
-            {
-                _bufferMuestras[i] = (float)(
-                    Math.Sin(i * 0.1 + tiempoFactor) *
-                    Math.Cos(i * 0.05) *
-                    volumen *
-                    _rand.NextDouble()
-                );
-            }
-        }
         public void QuitarPista(int indice)
         {
             _playlist.QuitarPista(indice);
