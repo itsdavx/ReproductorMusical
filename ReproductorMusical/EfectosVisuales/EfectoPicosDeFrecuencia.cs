@@ -62,4 +62,10 @@ namespace ReproductorMusical.EfectosVisuales
             float radioVertice = grosor * 0.6f;
             for (int i = 0; i < PUNTOS; i++)
             {
-                float x = i *
+                float x = i * pasoX - radioVertice;
+                using (SolidBrush brPunto = new SolidBrush(colorLinea))
+                    g.FillEllipse(brPunto, x, posY[i] - radioVertice, radioVertice * 2, radioVertice * 2);
+            }
+        }
+    }
+}
