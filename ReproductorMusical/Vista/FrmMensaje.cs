@@ -8,7 +8,6 @@ namespace ReproductorMusical.Vista
 {
     public partial class FrmMensaje : Form
     {
-        // ── Constructor ──────────────────────────────────────────────────
         public FrmMensaje(bool temaOscuro)
         {
             InitializeComponent();
@@ -16,7 +15,6 @@ namespace ReproductorMusical.Vista
             this.Load += (s, e) => RedondearControles();
         }
 
-        // ── Tema ─────────────────────────────────────────────────────────
         private void AplicarTema(bool temaOscuro)
         {
             if (temaOscuro)
@@ -37,8 +35,6 @@ namespace ReproductorMusical.Vista
             }
         }
 
-
-        // ── Bordes redondeados ───────────────────────────────────────────
         private void RedondearControles()
         {
             RedondearControl(btnAceptar, 50);
@@ -48,7 +44,6 @@ namespace ReproductorMusical.Vista
         private void RedondearControl(Control control, int radio)
         {
             if (control == null || control.Width <= 0 || control.Height <= 0) return;
-
             int r = Math.Min(radio, Math.Min(control.Width, control.Height) / 2);
             using (GraphicsPath path = new GraphicsPath())
             {
@@ -64,7 +59,6 @@ namespace ReproductorMusical.Vista
         private void RedondearFormulario(int radio)
         {
             if (this.Width <= 0 || this.Height <= 0) return;
-
             int r = Math.Min(radio, Math.Min(this.Width, this.Height) / 2);
             using (GraphicsPath path = new GraphicsPath())
             {
@@ -77,17 +71,8 @@ namespace ReproductorMusical.Vista
             }
         }
 
-        // ── Eventos ──────────────────────────────────────────────────────
         private void lblMensajeVacioTrackList_Click(object sender, EventArgs e) { }
-
-        private void btnAceptar_Click_1(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        private void FrmMensaje_Load(object sender, EventArgs e)
-        {
-            SystemSounds.Exclamation.Play();
-        }
+        private void btnAceptar_Click_1(object sender, EventArgs e) => this.Close();
+        private void FrmMensaje_Load(object sender, EventArgs e) => SystemSounds.Exclamation.Play();
     }
 }

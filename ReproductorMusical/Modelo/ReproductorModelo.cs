@@ -4,8 +4,7 @@ using NAudio.Wave.SampleProviders;
 
 namespace ReproductorMusical.Modelo
 {
-    // AGREGADOR DE MUESTRAS
-    // Captura bloques del pipeline de audio y calcula RMS + pico por banda
+    // Captura bloques del pipeline de audio y calcula RMS por banda con suavizado exponencial.
     public class SampleAggregator : ISampleProvider
     {
         private readonly ISampleProvider _fuente;
@@ -13,9 +12,7 @@ namespace ReproductorMusical.Modelo
         private readonly float[] _acumulador;
         private int _posicion;
 
-        // Buffer público que el Controlador lee en cada frame
         public readonly float[] BandasFFT = new float[128];
-
         public WaveFormat WaveFormat => _fuente.WaveFormat;
 
         public SampleAggregator(ISampleProvider fuente, int ventana = 1024)
@@ -34,7 +31,6 @@ namespace ReproductorMusical.Modelo
                 _acumulador[_posicion % _ventana] = buffer[offset + i];
                 _posicion++;
 
-                // Cada vez que llenamos la ventana, recalculamos las bandas
                 if (_posicion % _ventana == 0)
                     CalcularBandas();
             }
@@ -63,14 +59,12 @@ namespace ReproductorMusical.Modelo
 
     public class ReproductorModelo
     {
-        // ESTADO INTERNO
         private WaveStream _waveStream;
         private VolumeSampleProvider _volumeProvider;
         private SampleAggregator _aggregator;
         private IWavePlayer _outputDevice;
         private float _volumenActual = 1.0f;
 
-        // PROPIEDADES DE CONSULTA
         public bool EstaReproduciendo =>
             _outputDevice != null && _outputDevice.PlaybackState == PlaybackState.Playing;
         public bool EstaPausado =>
@@ -79,7 +73,7 @@ namespace ReproductorMusical.Modelo
         public TimeSpan DuracionTotal => _waveStream != null ? _waveStream.TotalTime : TimeSpan.Zero;
         public float Volumen => _volumenActual;
 
-        // Acceso al buffer de bandas reales (null si no hay reproducción)
+        // Devuelve las bandas escaladas al volumen actual; null si no hay reproducción.
         public float[] ObtenerBandas()
         {
             if (_aggregator == null) return null;
@@ -90,7 +84,7 @@ namespace ReproductorMusical.Modelo
             return bandasEscaladas;
         }
 
-        // REPRODUCCIÓN
+        // Detiene cualquier reproducción previa, carga el archivo y comienza a reproducir.
         public void Reproducir(string rutaCompleta)
         {
             Detener();
@@ -113,9 +107,9 @@ namespace ReproductorMusical.Modelo
         }
 
         public void Reanudar() { if (EstaPausado) _outputDevice.Play(); }
-
         public void Pausar() { if (EstaReproduciendo) _outputDevice.Pause(); }
 
+        // Libera todos los recursos de audio.
         public void Detener()
         {
             if (_outputDevice != null) { _outputDevice.Stop(); _outputDevice.Dispose(); _outputDevice = null; }

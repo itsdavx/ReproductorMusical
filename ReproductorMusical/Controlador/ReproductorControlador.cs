@@ -7,40 +7,21 @@ using ReproductorMusical.Modelo;
 
 namespace ReproductorMusical.Controlador
 {
-    /// <summary>
-    /// Orquesta el modelo, el gestor de playlist y los efectos visuales.
-    /// Solo coordina: no sabe nada de controles WinForms ni de colores de UI.
-    /// </summary>
     public class ReproductorControlador
     {
-        // ── Dependencias ─────────────────────────────────────────────────
         private readonly ReproductorModelo _modelo;
         private readonly GestorPlaylist _playlist;
 
-        // ── Efectos visuales ─────────────────────────────────────────────
-        private readonly Dictionary<string, IEfectoVisual> _efectos
-            = new Dictionary<string, IEfectoVisual>();
+        private readonly Dictionary<string, IEfectoVisual> _efectos = new Dictionary<string, IEfectoVisual>();
         private IEfectoVisual _efectoActual;
 
-        // ── Timer de animación (hilo UI, sin threads secundarios) ────────
         private Timer _timerFPS;
-
-        // ── Flag que evita detección falsa de fin de pista ───────────────
         private bool _cambiandoPista = false;
 
-        // ── Estado de reproducción ───────────────────────────────────────
         public ModoReproduccion ModoReproduccion { get; set; } = ModoReproduccion.Secuencial;
-
-        // ── Color de fondo del panel (cedido por la Vista vía propiedad) ─
-        // Se mantiene aquí únicamente para pasárselo al método de renderizado
-        // sin que la Vista tenga que pasarlo en cada Paint.
         public Color ColorFondoGrafico { get; set; } = Color.FromArgb(20, 20, 20);
-
-        // ── Consulta pública del índice activo ───────────────────────────
         public int IndicePistaActual => _playlist.IndicePistaActual;
 
-        // ── Eventos hacia la Vista ───────────────────────────────────────
-        // Usando 'event' para que solo este controlador pueda dispararlos.
         public event Action<string> OnTiempoActualizado;
         public event Action<string> OnDuracionActualizada;
         public event Action<int> OnProgresoActualizado;
@@ -50,7 +31,6 @@ namespace ReproductorMusical.Controlador
         public event Action OnSincronizarLista;
         public event Action<Image> OnAlbumCambiado;
 
-        // ── Constructor ──────────────────────────────────────────────────
         public ReproductorControlador(ReproductorModelo modelo)
         {
             _modelo = modelo;
@@ -58,8 +38,7 @@ namespace ReproductorMusical.Controlador
             RegistrarEfectos();
         }
 
-        // ── Registro de efectos ──────────────────────────────────────────
-
+        // Registra todos los efectos visuales disponibles.
         private void RegistrarEfectos()
         {
             Registrar(new EfectoBarrasVerticales());
@@ -74,57 +53,29 @@ namespace ReproductorMusical.Controlador
             _efectoActual = new EfectoBarrasVerticales();
         }
 
-        private void Registrar(IEfectoVisual efecto)
-        {
-            _efectos[efecto.Nombre] = efecto;
-        }
+        private void Registrar(IEfectoVisual efecto) => _efectos[efecto.Nombre] = efecto;
 
-        // ── Consultas para la Vista ──────────────────────────────────────
+        public List<string> ObtenerNombresEfectos() => new List<string>(_efectos.Keys);
+        public List<string> ObtenerNombresPistas() => _playlist.ObtenerNombresPistas();
 
-        public List<string> ObtenerNombresEfectos()
-        {
-            return new List<string>(_efectos.Keys);
-        }
+        // Expone la lista completa de pistas para que la Vista pueda leer Artista y Album.
+        public IReadOnlyList<Modelo.PistaMusical> ObtenerTodasLasPistas() => _playlist.ObtenerTodasLasPistas();
 
-        public List<string> ObtenerNombresPistas()
-        {
-            return _playlist.ObtenerNombresPistas();
-        }
+        // Agrega pistas al final de la lista actual.
+        public void AgregarPistas(string[] rutas) => _playlist.AgregarPistas(rutas);
 
-        /// <summary>
-        /// Expone la lista completa de pistas (solo lectura) para que la Vista
-        /// pueda leer Artista y Album al dibujar el ListBox con OwnerDraw.
-        /// </summary>
-        public IReadOnlyList<Modelo.PistaMusical> ObtenerTodasLasPistas()
-        {
-            return _playlist.ObtenerTodasLasPistas();
-        }
-
-        // ── Gestión de la playlist ───────────────────────────────────────
-
-        /// <summary>
-        /// Agrega pistas nuevas a la lista. Si ya había pistas, se añaden al final.
-        /// Llama a LimpiarYAgregar si quieres reemplazar la lista completa.
-        /// </summary>
-        public void AgregarPistas(string[] rutas)
-        {
-            _playlist.AgregarPistas(rutas);
-        }
-
-        /// <summary>Reemplaza la lista completa con nuevas pistas.</summary>
+        // Reemplaza la lista completa con nuevas pistas.
         public void ReemplazarPistas(string[] rutas)
         {
             _playlist.LimpiarPistas();
             _playlist.AgregarPistas(rutas);
         }
 
-        // ── Reproducción ─────────────────────────────────────────────────
-
+        // Reproduce la pista en el índice dado; si está pausada en esa misma pista, la reanuda.
         public void Play(int indicePista)
         {
             if (!_playlist.SeleccionarPista(indicePista)) return;
 
-            // Si es la misma pista pausada, solo reanudamos
             if (_modelo.EstaPausado && indicePista == _playlist.IndicePistaActual)
             {
                 _modelo.Reanudar();
@@ -163,6 +114,7 @@ namespace ReproductorMusical.Controlador
             DetenerTimer();
         }
 
+        // Detiene la reproducción y resetea todos los indicadores de la UI.
         public void Stop()
         {
             _modelo.Detener();
@@ -211,8 +163,7 @@ namespace ReproductorMusical.Controlador
                 _efectoActual = _efectos[nombre];
         }
 
-        // ── Renderizado ──────────────────────────────────────────────────
-
+        // Limpia el panel y renderiza el efecto actual con las bandas del modelo.
         public void RenderizarEfecto(Graphics g, int ancho, int alto)
         {
             g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
@@ -226,14 +177,12 @@ namespace ReproductorMusical.Controlador
             _efectoActual?.Renderizar(g, ancho, alto, bandas);
         }
 
-
-        // ── Timer ────────────────────────────────────────────────────────
-
+        // Inicia el timer de animación (~60 FPS), deteniéndolo antes si ya corría.
         private void IniciarTimer()
         {
             DetenerTimer();
             _timerFPS = new Timer();
-            _timerFPS.Interval = 16; // ~60 FPS
+            _timerFPS.Interval = 16;
             _timerFPS.Tick += TimerTick;
             _timerFPS.Start();
         }
@@ -246,11 +195,11 @@ namespace ReproductorMusical.Controlador
             _timerFPS = null;
         }
 
+        // Tick del timer: detecta fin de pista por polling y actualiza tiempo y progreso.
         private void TimerTick(object sender, EventArgs e)
         {
             if (_cambiandoPista) return;
 
-            // Detección de fin de pista por polling
             if (_playlist.IndicePistaActual >= 0
                 && !_modelo.EstaReproduciendo
                 && !_modelo.EstaPausado)
@@ -273,9 +222,6 @@ namespace ReproductorMusical.Controlador
             OnRedibujarGrafico?.Invoke();
         }
 
-        public void QuitarPista(int indice)
-        {
-            _playlist.QuitarPista(indice);
-        }
+        public void QuitarPista(int indice) => _playlist.QuitarPista(indice);
     }
 }

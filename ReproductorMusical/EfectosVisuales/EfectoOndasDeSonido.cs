@@ -17,6 +17,7 @@ namespace ReproductorMusical.EfectosVisuales
             int centroY = alto / 2;
             int fftLen = buffer.Length;
 
+            // Energía de bajos (primeras 16 bandas) y agudos (bandas 64+)
             float energiaBajos = 0f, energiaAgudos = 0f;
             for (int i = 0; i < 16; i++) energiaBajos += Math.Abs(buffer[i]);
             for (int i = 64; i < fftLen; i++) energiaAgudos += Math.Abs(buffer[i]);
@@ -24,12 +25,14 @@ namespace ReproductorMusical.EfectosVisuales
             energiaAgudos /= (fftLen - 64f);
             float energiaTotal = (energiaBajos + energiaAgudos) / 2f;
 
+            // Fase avanza por frame; los bajos aceleran la velocidad de la onda
             _fase += 0.035f + energiaBajos * 0.12f;
 
             int capas = 3;
-            int paso = 2; // dibujar cada 2 píxeles (ahorro del 50%)
+            int paso = 2; // muestrea cada 2px → 50% menos puntos
             int numPuntos = ancho / paso + 1;
 
+            // Reasignar arrays solo si cambia el ancho de ventana
             if (_puntosSuperiores == null || _ultimoAncho != ancho)
             {
                 _puntosSuperiores = new PointF[capas][];
@@ -44,6 +47,7 @@ namespace ReproductorMusical.EfectosVisuales
 
             for (int capa = 0; capa < capas; capa++)
             {
+                // Cada capa desfasada 2π/3 rad para que no se solapen
                 float offsetFase = _fase + capa * (float)(Math.PI * 2.0 / capas);
                 int idxPunto = 0;
 
@@ -51,22 +55,25 @@ namespace ReproductorMusical.EfectosVisuales
                 {
                     int idxBuf = (int)((float)x / ancho * fftLen);
                     float amp = Math.Abs(buffer[idxBuf % fftLen]);
+
+                    // Desplazamiento vertical: suma de onda senoidal + cosenoidal + amplitud del buffer
+                    // sin(x·k + fase) y cos(x·k·0.5 + fase·0.7) generan la forma orgánica de la ola
                     float seno = (float)Math.Sin(x * 0.045f + offsetFase);
                     float coseno = (float)Math.Cos(x * 0.022f + offsetFase * 0.7f);
-                    float desplazamiento = (0.04f + amp * 0.55f + seno * 0.035f + coseno * 0.018f) * (alto * 0.45f);
-                    desplazamiento *= (0.8f + energiaTotal * 1.5f);
+                    float desplazamiento = (0.04f + amp * 0.55f + seno * 0.035f + coseno * 0.018f)
+                                          * (alto * 0.45f) * (0.8f + energiaTotal * 1.5f);
 
                     _puntosSuperiores[capa][idxPunto] = new PointF(x, centroY - desplazamiento);
                     _puntosInferiores[capa][idxPunto] = new PointF(x, centroY + desplazamiento);
                     idxPunto++;
                 }
 
+                // Hue desplazado por capa y modulado por agudos; capas interiores más opacas
                 float hue = (capa / (float)capas + energiaAgudos * 0.5f) % 1f;
                 int alpha = 190 - capa * 45;
-                Color color = HsvAColor(hue, 0.85f, 1f, alpha);
                 float grosor = 2.2f - capa * 0.4f;
 
-                using (Pen pen = new Pen(color, grosor))
+                using (Pen pen = new Pen(HsvAColor(hue, 0.85f, 1f, alpha), grosor))
                 {
                     g.DrawLines(pen, _puntosSuperiores[capa]);
                     g.DrawLines(pen, _puntosInferiores[capa]);
@@ -74,6 +81,7 @@ namespace ReproductorMusical.EfectosVisuales
             }
         }
 
+        // Conversión HSV → RGB con canal alpha; 6 sectores de 60°, interpolación p/q/t
         private Color HsvAColor(float h, float s, float v, int alpha)
         {
             int hi = (int)(h * 6) % 6;
